@@ -95,6 +95,18 @@ Echo is the only one who can pull you back. She does it through scripted humanit
 - Corp grid (OmniGrid) is opt-out illegal in 38 states.
 - License-plate readers, gait recognition, voiceprint sensors are ambient. The game's mesh is parallel infrastructure that doesn't touch any of it.
 
+## Scene cuts
+
+Full-bleed illustrated SVG panels that overlay the background for the duration of a single dialogue line. Used at highest-impact dramatic moments. All panels are 960×540 viewBox, cel-shaded, no dialogue text baked in. Keys live in the `SceneCutRegistry`; SVG components live under `src/scenes/cuts/`. Visual brief for each cut is in `src/scenes/cuts/CUTS.md`.
+
+Active cuts (added 2026-05-09, m001):
+- `cut-diner-night` — Coney Island exterior, 3am, stolen OmniGrid line, amber neon smear on wet asphalt
+- `cut-echo-booth` — Echo in back booth, motel-pool-cyan implant pulse, surveillance screens behind her
+- `cut-amber-alert-band` — Detroit skyline from rooftop; sodium-amber federal data streams, open-sign-pink pirate signal bleeding through the gaps
+- `cut-tablet-block14` — Close-up, tablet slides across table, Block 14 schematic, two hands at the moment of transfer
+- `cut-mesh-online` — Aerial view of Block 14, BFS propagation bloom in gas-station-green, OmniGrid substation dark anchor
+- `cut-tablet-block19` — Same composition as cut-tablet-block14, Block 19 schematic, Kai's hand already closing (visual rhyme / sequel beat)
+
 ## Established events
 
 - **Mission m001 — Boot Sequence** — Coney Island Diner, Detroit. Kai meets Echo. The Rust recruits him. He installs his first piece of voluntary chrome (basic neural processor). Static counter goes from 0 → 5–10. Echo briefs him on Block 14 routing. Mission algorithm: BFS single-source shortest path. (LC #1971 / #841 / #994 — high-frequency at Amazon, Meta, Google, Microsoft, Bloomberg.)

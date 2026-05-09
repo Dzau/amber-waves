@@ -15,8 +15,7 @@ export function TitleScene({ onBegin }: TitleSceneProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="relative"
-      style={{ minHeight: "88vh" }}
+      className="relative h-full"
     >
       <ConeyIslandDinerBackground />
 

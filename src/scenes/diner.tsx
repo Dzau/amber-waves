@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import ConeyIslandDinerBackground from "./backgrounds/coney-island-diner";
 import Echo from "../characters/echo";
 import { KaiTanaka } from "../characters/kai-tanaka";
+import { SCENE_CUT_REGISTRY } from "./cuts";
 import { M001_DINER_DIALOGUE } from "../missions/m001.narrative";
 import type { NarrativeLine } from "../missions/_mission.types";
 
@@ -104,6 +105,8 @@ export function DinerScene({ onContinue, announce }: DinerSceneProps) {
   const xOff = X_OFFSET[speaker] ?? 0;
   const isNarrator = speaker === "NARRATOR";
 
+  const SceneCut = line.sceneCut ? SCENE_CUT_REGISTRY[line.sceneCut] : null;
+
   return (
     <motion.div
       key="diner"
@@ -111,8 +114,7 @@ export function DinerScene({ onContinue, announce }: DinerSceneProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
-      className="relative"
-      style={{ minHeight: "88vh" }}
+      className="relative h-full"
       onClick={() => {
         if (doneTyping && !held) next();
       }}
@@ -125,6 +127,26 @@ export function DinerScene({ onContinue, announce }: DinerSceneProps) {
       `}</style>
 
       <ConeyIslandDinerBackground />
+
+      {/* Scene cut overlay — full-bleed illustrated panel, fades over character sprites */}
+      <AnimatePresence>
+        {SceneCut && (
+          <motion.div
+            key={line.sceneCut}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="absolute inset-x-0 pointer-events-none"
+            style={{ top: 0, bottom: DIALOGUE_H, zIndex: 5 }}
+            aria-hidden="true"
+          >
+            <SceneCut
+              style={{ width: "100%", height: "100%", display: "block" }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Cinematic letterbox bars — only for NARRATOR lines */}
       <AnimatePresence>
@@ -157,7 +179,11 @@ export function DinerScene({ onContinue, announce }: DinerSceneProps) {
       {/* Character sprite — centered+offset, grows upward from dialogue box top */}
       <div
         className="absolute inset-x-0 flex justify-center pointer-events-none"
-        style={{ bottom: DIALOGUE_H }}
+        style={{
+          bottom: DIALOGUE_H,
+          opacity: SceneCut ? 0 : 1,
+          transition: "opacity 0.2s",
+        }}
         aria-hidden="true"
       >
         <AnimatePresence mode="wait">

@@ -1,8 +1,9 @@
 // Debrief scene — VN-style: Echo portrait full-height, dialogue panel at bottom.
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ConeyIslandDinerBackground from "./backgrounds/coney-island-diner";
 import Echo from "../characters/echo";
+import { SCENE_CUT_REGISTRY } from "./cuts";
 import type {
   MissionNarrative,
   NarrativeLine,
@@ -44,6 +45,12 @@ export function DebriefScene({
       .reverse()
       .find((l) => l.speaker === "ECHO REYES" && l.mood)?.mood ?? "smile";
 
+  // Show scene cut for the most recently revealed line that has one
+  const currentLine = lines[shown - 1];
+  const SceneCut = currentLine?.sceneCut
+    ? SCENE_CUT_REGISTRY[currentLine.sceneCut]
+    : null;
+
   return (
     <motion.div
       key="debrief"
@@ -51,16 +58,41 @@ export function DebriefScene({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="relative"
-      style={{ minHeight: "88vh" }}
+      className="relative h-full"
       aria-label="Mission debrief"
     >
       <ConeyIslandDinerBackground />
 
-      {/* Echo portrait — large, centered-left, grows upward from panel */}
+      {/* Scene cut overlay — illustrated panel for key debrief moments */}
+      <AnimatePresence>
+        {SceneCut && (
+          <motion.div
+            key={currentLine.sceneCut}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="absolute inset-x-0 pointer-events-none"
+            style={{ top: 0, bottom: PANEL_H, zIndex: 5 }}
+            aria-hidden="true"
+          >
+            <SceneCut
+              style={{ width: "100%", height: "100%", display: "block" }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Echo portrait — fades when a scene cut is active */}
       <div
         className="absolute flex justify-center pointer-events-none"
-        style={{ bottom: PANEL_H, left: 0, right: 0 }}
+        style={{
+          bottom: PANEL_H,
+          left: 0,
+          right: 0,
+          opacity: SceneCut ? 0 : 1,
+          transition: "opacity 0.2s",
+        }}
         aria-hidden="true"
       >
         <motion.div
