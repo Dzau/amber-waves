@@ -105,7 +105,7 @@ export default function App() {
 
   return (
     <div
-      className={`h-screen flex flex-col overflow-hidden amber-scanlines ${crtClass}`}
+      className={`h-full flex flex-col overflow-hidden amber-scanlines ${crtClass}`}
       style={{
         background:
           "radial-gradient(ellipse at 80% 0%, rgba(255,45,111,0.06), transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(57,255,122,0.05), transparent 60%), var(--asphalt)",
