@@ -12,6 +12,7 @@ export function CutDinerNight({ className, style }: Props) {
     <svg
       viewBox="0 0 960 540"
       preserveAspectRatio="xMidYMid slice"
+      overflow="hidden"
       width="100%"
       height="100%"
       className={className}
