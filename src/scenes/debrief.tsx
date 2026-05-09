@@ -16,8 +16,8 @@ const COLOR_FOR_SPEAKER: Record<NarrativeLine["speaker"], string> = {
   MIRA: "var(--motel-pool-cyan)",
 };
 
-const PANEL_H = 350;
-const SPRITE_H = 480;
+const PANEL_H = 308;
+const SPRITE_H = 400;
 
 export interface DebriefSceneProps {
   narrative: MissionNarrative;
