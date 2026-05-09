@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/drewzauel/.claude/**)",
+      "Read(//Users/drewzauel/.claude/skills/**)",
+      "Bash(mkdir -p ~/.claude/agents ~/.claude/skills/requirement-check)",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git -c commit.gpgsign=false commit -m 'Phase 0: scaffold Vite + React + TS + Tailwind + Zustand for Cyberpunk: Amber Waves *)"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --asphalt: #0a0908;
+  --open-sign-pink: #ff2d6f;
+  --gas-station-green: #39ff7a;
+  --sodium-amber: #ffb700;
+  --smoked-chrome: #2c2c2e;
+  --halogen-white: #f4ede4;
+  --diesel-orange: #ff5500;
+  --motel-pool-cyan: #4ad7d1;
+
+  color-scheme: dark;
+  font-family: "JetBrains Mono", monospace;
+  background: var(--asphalt);
+  color: var(--halogen-white);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--open-sign-pink);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
