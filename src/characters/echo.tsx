@@ -15,8 +15,10 @@ export interface EchoProps {
   mood?: EchoMood;
   /** Sets SVG width. Use height prop for VN scene sizing. */
   size?: number;
-  /** Sets SVG height; when set, width is auto (aspect-ratio preserved). */
-  height?: number;
+  /** Sets SVG height; when set, width is auto (aspect-ratio preserved).
+   *  Accepts a number (px) or a percentage string (e.g. "65%") for
+   *  responsive VN scene sizing inside a percentage-height container. */
+  height?: number | string;
   implantActive?: boolean;
   className?: string;
   style?: CSSProperties;

@@ -29,8 +29,10 @@ const X_OFFSET: Partial<Record<NarrativeLine["speaker"], number>> = {
   "KAI TANAKA": 28,
 };
 
-const DIALOGUE_H = 190;
-const SPRITE_H = 500;
+// Responsive sizing: percentage strings so values scale with the 16:9 viewport.
+// "27%" of container height ≈ 190px at 700px tall; "65%" ≈ 500px at 770px tall.
+const DIALOGUE_H = "27%";
+const SPRITE_H = "65%";
 
 interface TypewriterProps {
   text: string;

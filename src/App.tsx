@@ -128,7 +128,7 @@ export default function App() {
         {announcement}
       </div>
 
-      <div className="relative flex-1 overflow-hidden">
+      <div className="relative flex-1 overflow-y-auto">
         <AnimatePresence mode="wait">
           {scene === "title" && (
             <TitleScene

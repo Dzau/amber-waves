@@ -32,7 +32,7 @@ export function TitleScene({ onBegin }: TitleSceneProps) {
         >
           <Echo
             mood="neutral"
-            height={520}
+            height="75%"
             implantActive
             style={{
               opacity: 0.22,

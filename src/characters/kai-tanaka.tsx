@@ -14,7 +14,9 @@ export type KaiMood = "neutral" | "focused" | "surprised";
 export interface KaiTanakaProps {
   mood?: KaiMood;
   size?: number;
-  height?: number;
+  /** Accepts a number (px) or a percentage string (e.g. "65%") for
+   *  responsive VN scene sizing inside a percentage-height container. */
+  height?: number | string;
   className?: string;
   style?: CSSProperties;
 }

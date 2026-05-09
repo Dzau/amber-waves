@@ -17,8 +17,10 @@ const COLOR_FOR_SPEAKER: Record<NarrativeLine["speaker"], string> = {
   MIRA: "var(--motel-pool-cyan)",
 };
 
-const PANEL_H = 308;
-const SPRITE_H = 400;
+// Responsive sizing: percentage strings so values scale with the 16:9 viewport.
+// "44%" of container height ≈ 308px at 700px tall; "55%" ≈ 400px at 727px tall.
+const PANEL_H = "44%";
+const SPRITE_H = "55%";
 
 export interface DebriefSceneProps {
   narrative: MissionNarrative;
