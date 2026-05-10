@@ -559,103 +559,525 @@ export function CutDinerNight({ className, style }: Props) {
         {/* Door handle */}
         <rect x="404" y="392" width="4" height="10" rx="2" fill="#2c2c2e" />
 
-        {/* ── CONEY sign — unobstructed now that door is to the right ── */}
-        {/* Sign backing */}
-        <rect
-          x="75"
-          y="355"
-          width="300"
-          height="50"
-          rx="4"
-          fill="#1a1410"
-          stroke="#2c2c2e"
-          strokeWidth="2.5"
-        />
-        {/* Amber glow behind sign */}
+        {/* ── CONEY ISLAND neon sign ── */}
+
+        {/* Ambient amber glow behind the whole sign box */}
         <ellipse
-          cx="210"
-          cy="380"
-          rx="160"
-          ry="35"
+          cx="228"
+          cy="392"
+          rx="185"
+          ry="52"
           fill="url(#cdn-sign-glow)"
+          opacity="0.7"
         />
-        {/* C */}
-        <text
-          x="98"
-          y="393"
-          fontFamily="monospace"
-          fontSize="38"
-          fontWeight="900"
-          fill="#ffb700"
-          stroke="#0a0908"
+
+        {/* Sign box — worn riveted steel */}
+        <rect
+          x="62"
+          y="342"
+          width="332"
+          height="96"
+          rx="5"
+          fill="#100e0c"
+          stroke="#2c2c2e"
+          strokeWidth="3"
+        />
+        {/* Inner recess shadow */}
+        <rect
+          x="66"
+          y="346"
+          width="324"
+          height="88"
+          rx="3"
+          fill="#0d0b09"
+          stroke="#1a1816"
           strokeWidth="1"
-        >
-          C
-        </text>
-        {/* O */}
-        <text
-          x="128"
-          y="393"
-          fontFamily="monospace"
-          fontSize="38"
-          fontWeight="900"
-          fill="#ffb700"
-          stroke="#0a0908"
+        />
+
+        {/* Rust streaks */}
+        <line
+          x1="108"
+          y1="346"
+          x2="104"
+          y2="434"
+          stroke="#3a1e08"
+          strokeWidth="1.5"
+          opacity="0.5"
+        />
+        <line
+          x1="210"
+          y1="346"
+          x2="207"
+          y2="434"
+          stroke="#2e1806"
           strokeWidth="1"
-        >
-          O
-        </text>
-        {/* N */}
-        <text
-          x="158"
-          y="393"
-          fontFamily="monospace"
-          fontSize="38"
-          fontWeight="900"
-          fill="#ffb700"
-          stroke="#0a0908"
-          strokeWidth="1"
-        >
-          N
-        </text>
-        {/* E */}
-        <text
-          x="188"
-          y="393"
-          fontFamily="monospace"
-          fontSize="38"
-          fontWeight="900"
-          fill="#ffb700"
-          stroke="#0a0908"
-          strokeWidth="1"
-        >
-          E
-        </text>
-        {/* I — dead bulb, very dim, no fill glow */}
-        <text
-          x="218"
-          y="393"
-          fontFamily="monospace"
-          fontSize="38"
-          fontWeight="900"
-          fill="#3a3530"
-          stroke="none"
-        >
-          I
-        </text>
-        {/* Y — consistent 30px step from I */}
-        <text
-          x="248"
-          y="393"
-          fontFamily="monospace"
-          fontSize="38"
-          fontWeight="900"
-          fill="#ffb700"
-          stroke="#0a0908"
-          strokeWidth="1"
-        >
-          Y
-        </text>
+          opacity="0.35"
+        />
+        <line
+          x1="318"
+          y1="346"
+          x2="315"
+          y2="434"
+          stroke="#3a1e08"
+          strokeWidth="1.2"
+          opacity="0.4"
+        />
+
+        {/* Rivets — corners and mid-points */}
+        {(
+          [
+            [70, 350],
+            [386, 350],
+            [70, 430],
+            [386, 430],
+            [228, 350],
+            [228, 430],
+            [108, 350],
+            [348, 350],
+            [108, 430],
+            [348, 430],
+          ] as [number, number][]
+        ).map(([cx, cy], i) => (
+          <circle
+            key={i}
+            cx={cx}
+            cy={cy}
+            r="3"
+            fill="#1a1816"
+            stroke="#2c2c2e"
+            strokeWidth="1"
+          />
+        ))}
+
+        {/* Mounting brackets — top and bottom center */}
+        <rect
+          x="210"
+          y="335"
+          width="36"
+          height="10"
+          rx="2"
+          fill="#2c2c2e"
+          stroke="#1a1816"
+          strokeWidth="1.5"
+        />
+        <rect
+          x="210"
+          y="432"
+          width="36"
+          height="10"
+          rx="2"
+          fill="#2c2c2e"
+          stroke="#1a1816"
+          strokeWidth="1.5"
+        />
+        {/* Bracket bolts */}
+        <circle cx="216" cy="340" r="2" fill="#1a1816" />
+        <circle cx="240" cy="340" r="2" fill="#1a1816" />
+        <circle cx="216" cy="437" r="2" fill="#1a1816" />
+        <circle cx="240" cy="437" r="2" fill="#1a1816" />
+
+        {/* Border neon tube — amber rounded rect around inner area */}
+        {/* Glow layer first */}
+        <rect
+          x="72"
+          y="350"
+          width="312"
+          height="80"
+          rx="6"
+          fill="none"
+          stroke="#ffb700"
+          strokeWidth="7"
+          strokeOpacity="0.18"
+        />
+        {/* Tube layer */}
+        <rect
+          x="72"
+          y="350"
+          width="312"
+          height="80"
+          rx="6"
+          fill="none"
+          stroke="#ffb700"
+          strokeWidth="2.5"
+          strokeOpacity="0.55"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* ── CONEY — top line, neon tube paths ── */}
+        {/* Each letter: ~34px wide, 4px gap, starting x=86, y top=358 bottom=383 */}
+        {/* Letter height: 24px, tube stroke: 4px */}
+
+        {/* C — working, full amber glow */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 116,360 Q 86,360 86,371 Q 86,382 116,382"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="10"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 116,360 Q 86,360 86,371 Q 86,382 116,382"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 100,361 Q 88,363 87,371"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1.2"
+            strokeOpacity="0.55"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* O — working, full amber glow */}
+        <g>
+          {/* glow */}
+          <ellipse
+            cx="138"
+            cy="371"
+            rx="14"
+            ry="11"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="10"
+            strokeOpacity="0.22"
+          />
+          {/* tube */}
+          <ellipse
+            cx="138"
+            cy="371"
+            rx="14"
+            ry="11"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+          {/* highlight */}
+          <ellipse
+            cx="135"
+            cy="366"
+            rx="7"
+            ry="4"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1.2"
+            strokeOpacity="0.5"
+          />
+        </g>
+
+        {/* N — flickering, partial glow, reduced opacity */}
+        <g opacity="0.52">
+          {/* glow */}
+          <path
+            d="M 158,382 L 158,360 L 176,382 L 176,360"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="10"
+            strokeOpacity="0.18"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 158,382 L 158,360 L 176,382 L 176,360"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
+        {/* N highlight on working segment only */}
+        <path
+          d="M 158,382 L 158,368"
+          fill="none"
+          stroke="#f4ede4"
+          strokeWidth="1.2"
+          strokeOpacity="0.35"
+          strokeLinecap="round"
+        />
+
+        {/* E — working, full amber glow */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 198,360 L 180,360 L 180,371 L 194,371 M 180,371 L 180,382 L 198,382"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="10"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 198,360 L 180,360 L 180,371 L 194,371 M 180,371 L 180,382 L 198,382"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 198,360 L 182,360 L 181,365"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1.2"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
+
+        {/* Y — working, full amber glow */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 202,360 L 211,371 L 220,360 M 211,371 L 211,382"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="10"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 202,360 L 211,371 L 220,360 M 211,371 L 211,382"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 202,360 L 208,368"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1.2"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* ── ISLAND — bottom line, slightly smaller neon tubes ── */}
+        {/* Letter height ~20px, tube stroke 3.5px, y: top=390 bottom=412 */}
+        {/* 6 letters ~30px wide each, starting x=88, spacing to fit in box */}
+
+        {/* I — dead/dim, no glow */}
+        <g opacity="0.22">
+          <line
+            x1="103"
+            y1="390"
+            x2="103"
+            y2="412"
+            stroke="#2a1e0a"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+          <line
+            x1="97"
+            y1="390"
+            x2="109"
+            y2="390"
+            stroke="#2a1e0a"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+          <line
+            x1="97"
+            y1="412"
+            x2="109"
+            y2="412"
+            stroke="#2a1e0a"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* S — working */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 130,390 Q 115,390 115,401 Q 115,412 130,412"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="8"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 115,401 Q 115,390 130,390 M 115,401 Q 115,412 130,412"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="8"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 130,390 Q 115,390 115,401 Q 115,412 130,412"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 128,391 Q 117,392 116,397"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* L — working */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 137,390 L 137,412 L 157,412"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="8"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 137,390 L 137,412 L 157,412"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 137,390 L 137,396"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* A — working */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 162,412 L 171,390 L 180,412 M 165,404 L 177,404"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="8"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 162,412 L 171,390 L 180,412 M 165,404 L 177,404"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 168,400 L 171,392"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* N — working (ISLAND's N is fine) */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 185,412 L 185,390 L 199,412 L 199,390"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="8"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 185,412 L 185,390 L 199,412 L 199,390"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 185,412 L 185,398"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* D — working */}
+        <g>
+          {/* glow */}
+          <path
+            d="M 205,390 L 205,412 Q 222,412 222,401 Q 222,390 205,390"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="8"
+            strokeOpacity="0.22"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* tube */}
+          <path
+            d="M 205,390 L 205,412 Q 222,412 222,401 Q 222,390 205,390"
+            fill="none"
+            stroke="#ffb700"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* highlight */}
+          <path
+            d="M 205,390 L 205,397 Q 208,391 215,391"
+            fill="none"
+            stroke="#f4ede4"
+            strokeWidth="1"
+            strokeOpacity="0.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
 
         {/* ── Echo silhouette — visible through right window, pink-backlit ── */}
         {/* Booth seat back */}
