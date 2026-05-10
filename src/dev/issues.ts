@@ -1,0 +1,50 @@
+export interface DevIssue {
+  id: string;
+  scene: string;
+  severity: "crit" | "high" | "low";
+  description: string;
+  status: "open" | "wip" | "fixed";
+}
+
+export const DEV_ISSUES: DevIssue[] = [
+  {
+    id: "001",
+    scene: "cut-echo-booth",
+    severity: "high",
+    description:
+      "slice crops too aggressively into Echo's face — composition needs wider viewBox or repositioned subject",
+    status: "open",
+  },
+  {
+    id: "002",
+    scene: "title",
+    severity: "crit",
+    description:
+      "Echo silhouette not visible — parent div had no height so height='75%' on SVG resolved to 0",
+    status: "wip",
+  },
+  {
+    id: "003",
+    scene: "cut-amber-alert-band",
+    severity: "low",
+    description:
+      "Rooftop/broadcast detail lost after slice zoom — consider xMinYMin to anchor composition to upper-left",
+    status: "open",
+  },
+  {
+    id: "004",
+    scene: "cut-tablet-block14 / cut-tablet-block19",
+    severity: "high",
+    description:
+      "Hands holding tablet look broken/stubby — proportions and anatomy need rework in visual artist pass",
+    status: "open",
+  },
+  {
+    id: "005",
+    scene: "title",
+    severity: "crit",
+    description:
+      "Echo silhouette fix applied (height:80% on parent div) — verify renders correctly across viewport sizes",
+    status: "wip",
+  },
+];

@@ -17,6 +17,7 @@ import CrtFlickerStyles, {
   useCrtFlickerClass,
 } from "./scenes/effects/crt-flicker";
 import NeonGlowStyles, { NeonGlowSvgDefs } from "./scenes/effects/neon-glow";
+import { DevIssuesPanel } from "./dev/DevIssuesPanel";
 
 const SCENE_LABELS: Record<string, string> = {
   title: "TITLE",
@@ -116,6 +117,7 @@ export default function App() {
       <Scanlines />
       <NeonGlowStyles />
       <NeonGlowSvgDefs />
+      <DevIssuesPanel />
       <style>{`
         .amber-blink { animation: amber-blink 1.1s steps(2) infinite; }
         @keyframes amber-blink { 50% { opacity: 0; } }

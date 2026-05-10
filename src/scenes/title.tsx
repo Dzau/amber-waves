@@ -22,19 +22,22 @@ export function TitleScene({ onBegin }: TitleSceneProps) {
       {/* Echo silhouette — large, right side, low opacity, tinted pink */}
       <div
         className="absolute pointer-events-none"
-        style={{ right: "4%", bottom: 0 }}
+        style={{ right: "4%", bottom: 0, height: "80%", width: "auto" }}
         aria-hidden="true"
       >
         <motion.div
+          style={{ height: "100%" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.4, ease: "easeOut" }}
         >
           <Echo
             mood="neutral"
-            height="75%"
+            height="100%"
             implantActive
             style={{
+              height: "100%",
+              width: "auto",
               opacity: 0.22,
               filter:
                 "drop-shadow(0 0 40px rgba(255,45,111,0.55)) saturate(0) brightness(3)",
