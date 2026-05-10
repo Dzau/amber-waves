@@ -12,8 +12,8 @@ export const DEV_ISSUES: DevIssue[] = [
     scene: "cut-echo-booth",
     severity: "high",
     description:
-      "slice crops too aggressively into Echo's face — composition needs wider viewBox or repositioned subject",
-    status: "open",
+      "slice crops too aggressively into Echo's face — fixed: changed preserveAspectRatio to xMidYMin slice so top anchors to frame edge",
+    status: "fixed",
   },
   {
     id: "002",
@@ -28,8 +28,8 @@ export const DEV_ISSUES: DevIssue[] = [
     scene: "cut-amber-alert-band",
     severity: "low",
     description:
-      "Rooftop/broadcast detail lost after slice zoom — consider xMinYMin to anchor composition to upper-left",
-    status: "open",
+      "Rooftop/broadcast detail lost after slice zoom — fixed: changed preserveAspectRatio to xMinYMin slice to anchor to upper-left",
+    status: "fixed",
   },
   {
     id: "004",

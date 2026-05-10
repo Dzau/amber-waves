@@ -11,7 +11,7 @@ export function CutAmberAlertBand({ className, style }: Props) {
   return (
     <svg
       viewBox="0 0 960 540"
-      preserveAspectRatio="xMidYMid slice"
+      preserveAspectRatio="xMinYMin slice"
       overflow="hidden"
       width="100%"
       height="100%"
