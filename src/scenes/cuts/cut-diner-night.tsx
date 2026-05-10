@@ -527,7 +527,39 @@ export function CutDinerNight({ className, style }: Props) {
           opacity="0.8"
         />
 
-        {/* ── CONEY sign ── */}
+        {/* ── Door — right side of facade so it doesn't cut the sign ── */}
+        <rect
+          x="400"
+          y="350"
+          width="60"
+          height="80"
+          fill="#0d1010"
+          stroke="#2c2c2e"
+          strokeWidth="2.5"
+        />
+        {/* Door window */}
+        <rect
+          x="410"
+          y="358"
+          width="18"
+          height="22"
+          fill="#0f1416"
+          stroke="#2c2c2e"
+          strokeWidth="1.5"
+        />
+        <rect
+          x="432"
+          y="358"
+          width="18"
+          height="22"
+          fill="#0f1416"
+          stroke="#2c2c2e"
+          strokeWidth="1.5"
+        />
+        {/* Door handle */}
+        <rect x="404" y="392" width="4" height="10" rx="2" fill="#2c2c2e" />
+
+        {/* ── CONEY sign — unobstructed now that door is to the right ── */}
         {/* Sign backing */}
         <rect
           x="80"
@@ -635,37 +667,33 @@ export function CutDinerNight({ className, style }: Props) {
           Y
         </text>
 
-        {/* ── Door ── */}
-        <rect
-          x="170"
-          y="350"
-          width="60"
-          height="80"
-          fill="#0d1010"
-          stroke="#2c2c2e"
-          strokeWidth="2.5"
+        {/* ── Echo silhouette — visible through right window, pink-backlit ── */}
+        {/* Booth seat back */}
+        <rect x="258" y="296" width="86" height="8" rx="2" fill="#2a0d18" />
+        {/* Seated torso */}
+        <rect x="286" y="252" width="30" height="46" rx="4" fill="#1a0810" />
+        {/* Head */}
+        <ellipse cx="301" cy="244" rx="14" ry="16" fill="#1a0810" />
+        {/* Asymmetric undercut hair silhouette */}
+        <path
+          d="M 288,236 Q 290,224 301,228 Q 313,222 316,234 L 314,240 Q 308,228 301,232 Q 294,230 290,240 Z"
+          fill="#0f0608"
         />
-        {/* Door window */}
-        <rect
-          x="180"
-          y="358"
-          width="18"
-          height="22"
-          fill="#0f1416"
-          stroke="#2c2c2e"
-          strokeWidth="1.5"
+        {/* Kiroshi implant glow — cyan dot on left side of head */}
+        <circle cx="288" cy="244" r="3" fill="#4ad7d1" opacity="0.9" />
+        <circle cx="288" cy="244" r="6" fill="#4ad7d1" opacity="0.2" />
+        {/* Pink interior backlight rim on figure */}
+        <ellipse
+          cx="301"
+          cy="268"
+          rx="18"
+          ry="26"
+          fill="#ff2d6f"
+          opacity="0.08"
         />
-        <rect
-          x="202"
-          y="358"
-          width="18"
-          height="22"
-          fill="#0f1416"
-          stroke="#2c2c2e"
-          strokeWidth="1.5"
-        />
-        {/* Door handle */}
-        <rect x="222" y="392" width="4" height="10" rx="2" fill="#2c2c2e" />
+        {/* Coffee cup on table in front of her */}
+        <rect x="292" y="296" width="10" height="8" rx="1" fill="#2c2c2e" />
+        <ellipse cx="297" cy="296" rx="5" ry="2" fill="#3a2020" />
 
         {/* ── Chrome trim along base ── */}
         <rect x="40" y="420" width="440" height="10" fill="#2c2c2e" />
