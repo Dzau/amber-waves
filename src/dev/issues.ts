@@ -21,7 +21,7 @@ export const DEV_ISSUES: DevIssue[] = [
     severity: "crit",
     description:
       "Echo silhouette not visible — parent div had no height so height='75%' on SVG resolved to 0",
-    status: "wip",
+    status: "fixed",
   },
   {
     id: "003",
@@ -45,6 +45,14 @@ export const DEV_ISSUES: DevIssue[] = [
     severity: "crit",
     description:
       "Echo silhouette fix applied (height:80% on parent div) — verify renders correctly across viewport sizes",
-    status: "wip",
+    status: "fixed",
+  },
+  {
+    id: "006",
+    scene: "diner / debrief",
+    severity: "crit",
+    description:
+      "Character sprites invisible — height cascade bug: SVG height='65%' resolved to 0 without explicit parent height. Fix: container height=SPRITE_H, motion.div height=100%, pass height=100% to Echo/Kai",
+    status: "fixed",
   },
 ];

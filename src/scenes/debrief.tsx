@@ -92,6 +92,7 @@ export function DebriefScene({
           bottom: PANEL_H,
           left: 0,
           right: 0,
+          height: SPRITE_H,
           opacity: SceneCut ? 0 : 1,
           transition: "opacity 0.2s",
         }}
@@ -101,9 +102,9 @@ export function DebriefScene({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          style={{ x: -24 }}
+          style={{ height: "100%", x: -24 }}
         >
-          <Echo mood={lastEchoMood} height={SPRITE_H} />
+          <Echo mood={lastEchoMood} height="100%" />
         </motion.div>
       </div>
 

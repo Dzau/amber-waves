@@ -178,11 +178,12 @@ export function DinerScene({ onContinue, announce }: DinerSceneProps) {
         )}
       </AnimatePresence>
 
-      {/* Character sprite — centered+offset, grows upward from dialogue box top */}
+      {/* Character sprite — container height set explicitly so % heights on SVG resolve */}
       <div
         className="absolute inset-x-0 flex justify-center pointer-events-none"
         style={{
           bottom: DIALOGUE_H,
+          height: SPRITE_H,
           opacity: SceneCut ? 0 : 1,
           transition: "opacity 0.2s",
         }}
@@ -192,16 +193,17 @@ export function DinerScene({ onContinue, announce }: DinerSceneProps) {
           {hasSprite && (
             <motion.div
               key={speaker}
+              style={{ height: "100%" }}
               initial={{ opacity: 0, x: xOff + slideDir * 38, y: 10 }}
               animate={{ opacity: 1, x: xOff, y: 0 }}
               exit={{ opacity: 0, x: xOff - slideDir * 22, y: -8 }}
               transition={{ duration: 0.26, ease: "easeOut" }}
             >
               {speaker === "ECHO REYES" && (
-                <Echo mood={echoMood} height={SPRITE_H} />
+                <Echo mood={echoMood} height="100%" />
               )}
               {speaker === "KAI TANAKA" && (
-                <KaiTanaka mood="neutral" height={SPRITE_H} />
+                <KaiTanaka mood="neutral" height="100%" />
               )}
             </motion.div>
           )}
