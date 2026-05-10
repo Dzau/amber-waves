@@ -562,9 +562,9 @@ export function CutDinerNight({ className, style }: Props) {
         {/* ── CONEY sign — unobstructed now that door is to the right ── */}
         {/* Sign backing */}
         <rect
-          x="80"
+          x="75"
           y="355"
-          width="260"
+          width="300"
           height="50"
           rx="4"
           fill="#1a1410"
@@ -631,31 +631,21 @@ export function CutDinerNight({ className, style }: Props) {
         >
           E
         </text>
-        {/* I — dead, dim */}
+        {/* I — dead bulb, very dim, no fill glow */}
         <text
           x="218"
           y="393"
           fontFamily="monospace"
           fontSize="38"
           fontWeight="900"
-          fill="#2c2c2e"
-          stroke="#0a0908"
-          strokeWidth="1"
+          fill="#3a3530"
+          stroke="none"
         >
           I
         </text>
-        {/* Broken filament mark through the I */}
-        <line
-          x1="222"
-          y1="360"
-          x2="228"
-          y2="395"
-          stroke="#1a1816"
-          strokeWidth="3"
-        />
-        {/* Y */}
+        {/* Y — consistent 30px step from I */}
         <text
-          x="232"
+          x="248"
           y="393"
           fontFamily="monospace"
           fontSize="38"
