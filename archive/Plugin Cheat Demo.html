@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plugin Cheat Demo — Drew</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f3;
+    --panel: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #e8e4d8;
+    --accent: #c4622d;
+    --accent-soft: #fbeee2;
+    --pill: #f3efe4;
+    --pill-ink: #5a4a30;
+    --green: #2f7d4e;
+    --green-soft: #e3f1e9;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.05);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    font-size: 15px; line-height: 1.55;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 36px 28px 80px; }
+
+  header.hero {
+    display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: end;
+    border-bottom: 1px solid var(--line); padding-bottom: 22px; margin-bottom: 28px;
+  }
+  .hero h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: -.01em; }
+  .hero .sub { color: var(--muted); margin: 0; max-width: 680px; }
+  .meta { color: var(--muted); font-size: 13px; text-align: right; }
+  .meta strong { color: var(--ink); }
+
+  .controls {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 22px;
+  }
+  .search {
+    flex: 1 1 280px; min-width: 240px;
+    position: relative;
+  }
+  .search input {
+    width: 100%; padding: 11px 14px 11px 38px;
+    border-radius: 10px; border: 1px solid var(--line);
+    background: var(--panel); font-size: 14px; color: var(--ink);
+    box-shadow: var(--shadow);
+    outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .search input:focus { border-color: var(--accent); }
+  .search::before {
+    content: ""; position: absolute; left: 13px; top: 50%; width: 14px; height: 14px;
+    transform: translateY(-50%);
+    background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5'/></svg>");
+  }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filters button {
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+    padding: 8px 14px; border-radius: 999px; font-size: 13px; cursor: pointer;
+    transition: all .15s;
+  }
+  .filters button:hover { border-color: var(--accent); }
+  .filters button.active {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 18px 14px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px;
+    transition: transform .12s, box-shadow .12s;
+  }
+  .card:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 10px 24px rgba(0,0,0,.07); }
+  .card .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card h2 { margin: 0; font-size: 16px; letter-spacing: .01em; }
+  .card .badge {
+    font-size: 11px; padding: 3px 9px; border-radius: 999px;
+    background: var(--pill); color: var(--pill-ink); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .badge.research { background: #f0eaff; color: #553e94; }
+  .badge.gtm { background: #ffeede; color: #8a4a14; }
+  .badge.creative { background: #ffe8ee; color: #8a2748; }
+  .badge.ops { background: #e3f1e9; color: #2f5e3a; }
+  .badge.numbers { background: #e2eef9; color: #1f4d7a; }
+  .badge.platform { background: #ece7df; color: #5a4a30; }
+  .blurb { color: var(--muted); margin: 0; font-size: 14px; }
+  .skills { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .skill {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center;
+    padding: 8px 10px; border-radius: 8px; background: #fbf9f3;
+    border: 1px solid transparent; transition: border-color .12s, background .12s;
+  }
+  .skill:hover { border-color: var(--line); background: #fff; }
+  .skill .body { min-width: 0; }
+  .skill .name { font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px; color: #4b3a14; }
+  .skill .ex {
+    margin: 2px 0 0; font-size: 13px; color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .skill .copy {
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+    font-size: 11px; padding: 5px 9px; border-radius: 6px; cursor: pointer;
+    transition: all .12s; white-space: nowrap;
+  }
+  .skill .copy:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .skill .copy.done { background: var(--green); border-color: var(--green); color: #fff; }
+
+  details.more { margin-top: 4px; }
+  details.more summary {
+    cursor: pointer; color: var(--accent); font-size: 13px; font-weight: 500;
+    list-style: none;
+  }
+  details.more summary::-webkit-details-marker { display: none; }
+  details.more summary::after { content: " +"; }
+  details.more[open] summary::after { content: " −"; }
+
+  .tip {
+    margin-top: 36px; padding: 16px 18px; border-radius: 12px;
+    background: var(--accent-soft); border: 1px solid #f0d9c4;
+    font-size: 14px;
+  }
+  .tip strong { color: var(--accent); }
+  .tip code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    background: #fff; padding: 1px 6px; border-radius: 4px; border: 1px solid #f0d9c4;
+    font-size: 12px;
+  }
+
+  .footer-note {
+    margin-top: 28px; color: var(--muted); font-size: 12px; text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 22px 16px 60px; }
+    header.hero { grid-template-columns: 1fr; }
+    .meta { text-align: left; }
+    .hero h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <h1>Plugin Cheat Demo</h1>
+    <p class="sub">Drew's installed plugins, what each one's good at, and example prompts you can copy and paste. Search, filter by category, click to copy.</p>
+  </div>
+  <div class="meta">
+    Generated <strong>May 9, 2026</strong><br/>
+    <span id="count"></span>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search"><input id="q" type="search" placeholder="Search a plugin, skill, or task (e.g. 'pricing', 'NDA', 'campaign')…" /></div>
+  <div class="filters" id="filters">
+    <button class="active" data-cat="all">All</button>
+    <button data-cat="research">Research</button>
+    <button data-cat="gtm">Sales</button>
+    <button data-cat="creative">Marketing &amp; Design</button>
+    <button data-cat="numbers">Finance &amp; Data</button>
+    <button data-cat="ops">Ops &amp; PM</button>
+    <button data-cat="platform">Platform</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="tip">
+  <strong>How to actually use these.</strong> You almost never type the skill name. Just describe what you want — Claude picks the matching skill. To force one, type its slash command, e.g. <code>/nimble:company-deep-dive</code>.
+</div>
+
+<div class="footer-note">Click a prompt's <em>copy</em> button to put it on your clipboard. Skills marked the same way live next to each other in this page.</div>
+</div>
+
+<script>
+const PLUGINS = [
+  {
+    name: "nimble", cat: "research", badge: "Research",
+    blurb: "Live web data: search, scrape, deep-dive companies, monitor competitors, source talent, healthcare lookups.",
+    skills: [
+      { id: "nimble:nimble-web-expert", ex: "Get the pricing from stripe.com/pricing" },
+      { id: "nimble:company-deep-dive", ex: "Tell me about Anthropic" },
+      { id: "nimble:competitor-intel", ex: "What are Vercel and Netlify shipping this week?" },
+      { id: "nimble:competitor-positioning", ex: "Compare positioning between Linear and Asana" },
+      { id: "nimble:meeting-prep", ex: "Prep me for my call with Acme tomorrow with Jane Smith" },
+      { id: "nimble:market-finder", ex: "Find every SaaS company in Austin doing developer tools" },
+      { id: "nimble:local-places", ex: "Map every coffee shop in SoHo" },
+      { id: "nimble:talent-sourcing", ex: "Find me 20 senior backend engineers in Berlin" },
+      { id: "nimble:seo-intel", ex: "Run an SEO audit on amberwaves.com" },
+      { id: "nimble:healthcare-providers-extract", ex: "Extract all the doctors from clevelandclinic.org" },
+      { id: "nimble:healthcare-providers-enrich", ex: "Add phone numbers to this list of doctors" },
+      { id: "nimble:healthcare-providers-verify", ex: "Verify these practitioners are still licensed" },
+      { id: "nimble:nimble-agent-builder", ex: "Build me a reusable scraper for Zillow listings" }
+    ]
+  },
+  {
+    name: "brightdata", cat: "research", badge: "Research",
+    blurb: "Alternative web data infrastructure — scraping, SERP, structured data feeds, mirror-a-site design.",
+    skills: [
+      { id: "brightdata-plugin:bright-data-mcp", ex: "Scrape this URL with Bright Data" },
+      { id: "brightdata-plugin:scrape", ex: "Scrape this page as clean markdown" },
+      { id: "brightdata-plugin:search", ex: "Search Google for 'small batch coffee roaster'" },
+      { id: "brightdata-plugin:data-feeds", ex: "Pull product details from this Amazon link" },
+      { id: "brightdata-plugin:scraper-builder", ex: "Build a scraper for product listings on Etsy" },
+      { id: "brightdata-plugin:competitive-intel", ex: "Track pricing changes at my top 3 competitors" },
+      { id: "brightdata-plugin:design-mirror", ex: "Make my app's frontend look like Linear's" },
+      { id: "brightdata-plugin:seo-audit", ex: "Audit my SEO using real SERP data" }
+    ]
+  },
+  {
+    name: "sales", cat: "gtm", badge: "Sales",
+    blurb: "Account research, call prep, daily briefings, outreach drafting, pipeline review, forecasting.",
+    skills: [
+      { id: "sales:account-research", ex: "Research Acme Corp before I reach out" },
+      { id: "sales:call-prep", ex: "Prep me for my call with Acme tomorrow" },
+      { id: "sales:call-summary", ex: "Process these call notes and draft a follow-up email" },
+      { id: "sales:competitive-intelligence", ex: "Build a battlecard against Salesforce" },
+      { id: "sales:create-an-asset", ex: "Make a one-pager for Acme based on what we discussed" },
+      { id: "sales:daily-briefing", ex: "Morning briefing — what's on my plate today" },
+      { id: "sales:draft-outreach", ex: "Write a cold email to the VP of Eng at Acme" },
+      { id: "sales:forecast", ex: "Build my Q2 forecast from this pipeline CSV" },
+      { id: "sales:pipeline-review", ex: "Run my weekly pipeline review" }
+    ]
+  },
+  {
+    name: "marketing", cat: "creative", badge: "Marketing",
+    blurb: "Campaigns, content, brand review, SEO audits, email sequences, performance reporting.",
+    skills: [
+      { id: "marketing:brand-review", ex: "Review this draft against our brand voice" },
+      { id: "marketing:campaign-plan", ex: "Plan a product launch campaign for our new feature" },
+      { id: "marketing:competitive-brief", ex: "Build a competitive brief on HubSpot vs us" },
+      { id: "marketing:content-creation", ex: "Write a blog post on AI agents for marketers" },
+      { id: "marketing:draft-content", ex: "Draft a LinkedIn post announcing our funding" },
+      { id: "marketing:email-sequence", ex: "Design a 5-email onboarding sequence" },
+      { id: "marketing:performance-report", ex: "Build last month's marketing performance report" },
+      { id: "marketing:seo-audit", ex: "Audit our site's SEO and find quick wins" }
+    ]
+  },
+  {
+    name: "design", cat: "creative", badge: "Design",
+    blurb: "Critique, design systems, accessibility, UX copy, user research, dev handoff.",
+    skills: [
+      { id: "design:design-critique", ex: "Review this mockup" },
+      { id: "design:accessibility-review", ex: "Check this design for WCAG 2.1 AA compliance" },
+      { id: "design:design-system", ex: "Audit our design system for naming inconsistencies" },
+      { id: "design:design-handoff", ex: "Generate handoff specs for this screen" },
+      { id: "design:ux-copy", ex: "What should this empty state say?" },
+      { id: "design:user-research", ex: "Plan a usability test for our checkout" },
+      { id: "design:research-synthesis", ex: "Synthesize these support tickets into themes" }
+    ]
+  },
+  {
+    name: "legal", cat: "ops", badge: "Legal",
+    blurb: "NDA triage, contract review, vendor checks, compliance, risk classification.",
+    skills: [
+      { id: "legal:triage-nda", ex: "Triage this NDA: GREEN, YELLOW, or RED?" },
+      { id: "legal:review-contract", ex: "Review this MSA against our playbook" },
+      { id: "legal:vendor-check", ex: "What do we have signed with AWS? Any gaps?" },
+      { id: "legal:compliance-check", ex: "Compliance check: launching a feature that collects health data" },
+      { id: "legal:legal-risk-assessment", ex: "Assess the risk on this clause" },
+      { id: "legal:legal-response", ex: "Draft a response to this data subject request" },
+      { id: "legal:meeting-briefing", ex: "Brief me before the board contract review" },
+      { id: "legal:brief", ex: "Daily legal brief — anything urgent?" },
+      { id: "legal:signature-request", ex: "Pre-sig checklist on this final contract" }
+    ]
+  },
+  {
+    name: "finance", cat: "numbers", badge: "Finance",
+    blurb: "Journal entries, reconciliation, close, financial statements, variance, SOX.",
+    skills: [
+      { id: "finance:journal-entry", ex: "Book a $50k accrual for AWS, monthly" },
+      { id: "finance:reconciliation", ex: "Run a bank rec for April" },
+      { id: "finance:close-management", ex: "Plan the May close calendar" },
+      { id: "finance:financial-statements", ex: "Generate April P&L with variance commentary" },
+      { id: "finance:variance-analysis", ex: "Decompose the COGS variance vs. budget" },
+      { id: "finance:sox-testing", ex: "Pull a SOX sample for revenue recognition Q1" },
+      { id: "finance:audit-support", ex: "Build a testing workpaper for ITGC controls" }
+    ]
+  },
+  {
+    name: "data", cat: "numbers", badge: "Data",
+    blurb: "SQL, exploratory analysis, statistics, viz, dashboards, QA.",
+    skills: [
+      { id: "data:analyze", ex: "Why did signups drop last week?" },
+      { id: "data:write-query", ex: "Write a query to get DAU by week from events table" },
+      { id: "data:explore-data", ex: "Profile this CSV — null rates, distributions" },
+      { id: "data:statistical-analysis", ex: "Run a t-test on conversion between A and B" },
+      { id: "data:create-viz", ex: "Chart this trend with matplotlib" },
+      { id: "data:build-dashboard", ex: "Turn these query results into a self-contained HTML dashboard" },
+      { id: "data:validate-data", ex: "QA this analysis before I share with the exec team" },
+      { id: "data:data-context-extractor", ex: "Help me create a data skill for our warehouse" }
+    ]
+  },
+  {
+    name: "product-management", cat: "ops", badge: "PM",
+    blurb: "Specs, roadmaps, sprint planning, metrics review, brainstorming, stakeholder updates.",
+    skills: [
+      { id: "product-management:write-spec", ex: "Write a PRD for a notifications redesign" },
+      { id: "product-management:roadmap-update", ex: "Add this initiative to the roadmap and tell me what slips" },
+      { id: "product-management:sprint-planning", ex: "Plan our next sprint — Drew, Sam, Priya, 2 weeks, 1 day PTO each" },
+      { id: "product-management:metrics-review", ex: "Run our weekly metrics review" },
+      { id: "product-management:competitive-brief", ex: "Build a competitive brief on Notion's AI features" },
+      { id: "product-management:synthesize-research", ex: "Synthesize these 8 user interviews into themes" },
+      { id: "product-management:stakeholder-update", ex: "Write this week's update for leadership" },
+      { id: "product-management:brainstorm", ex: "Brainstorm: how do we make onboarding faster?" }
+    ]
+  },
+  {
+    name: "productivity", cat: "ops", badge: "Productivity",
+    blurb: "Tasks, daily planning, working memory and shorthand decoding.",
+    skills: [
+      { id: "productivity:start", ex: "Initialize the productivity system" },
+      { id: "productivity:update", ex: "Sync my tasks and refresh memory" },
+      { id: "productivity:task-management", ex: "What tasks do I have open?" },
+      { id: "productivity:memory-management", ex: "Remember that 'AW' = Amber Waves" }
+    ]
+  },
+  {
+    name: "enterprise-search", cat: "ops", badge: "Search",
+    blurb: "Search across every connected source — chat, email, drive, project trackers — at once.",
+    skills: [
+      { id: "enterprise-search:search", ex: "Find that doc about Q3 OKRs" },
+      { id: "enterprise-search:digest", ex: "What did I miss this week across email, Slack, and Asana?" }
+    ]
+  },
+  {
+    name: "pdf-viewer", cat: "platform", badge: "PDF",
+    blurb: "Open, annotate, sign, and fill PDFs interactively in a side panel.",
+    skills: [
+      { id: "pdf-viewer:open", ex: "Open this PDF" },
+      { id: "pdf-viewer:annotate", ex: "Annotate this contract — markup the risky clauses" },
+      { id: "pdf-viewer:sign", ex: "Place my signature on page 4 of this PDF" },
+      { id: "pdf-viewer:fill-form", ex: "Fill out this PDF form interactively" }
+    ]
+  },
+  {
+    name: "cowork-plugin-management", cat: "platform", badge: "Plugins",
+    blurb: "Build new plugins or customize existing ones for your team's stack.",
+    skills: [
+      { id: "cowork-plugin-management:create-cowork-plugin", ex: "Help me build a new plugin for our team's tools" },
+      { id: "cowork-plugin-management:cowork-plugin-customizer", ex: "Customize the sales plugin for our org" }
+    ]
+  },
+  {
+    name: "anthropic-skills", cat: "platform", badge: "Built-in",
+    blurb: "Always-available skills bundled with Cowork — Office files, scheduling, skill creation.",
+    skills: [
+      { id: "docx", ex: "Make a Word doc memo summarizing this thread" },
+      { id: "xlsx", ex: "Build a spreadsheet of these numbers with formulas" },
+      { id: "pptx", ex: "Make me a 6-slide pitch deck on this idea" },
+      { id: "pdf", ex: "Merge these two PDFs into one" },
+      { id: "schedule", ex: "Schedule a daily 8am briefing task" },
+      { id: "skill-creator", ex: "Help me create a new skill" },
+      { id: "requirement-check", ex: "(triggers automatically on multi-part asks)" }
+    ]
+  }
+];
+
+const grid = document.getElementById("grid");
+const q = document.getElementById("q");
+const filters = document.getElementById("filters");
+const count = document.getElementById("count");
+
+function render() {
+  const term = q.value.trim().toLowerCase();
+  const cat = filters.querySelector("button.active").dataset.cat;
+  let total = 0;
+
+  grid.innerHTML = "";
+  for (const p of PLUGINS) {
+    if (cat !== "all" && p.cat !== cat) continue;
+    const matched = p.skills.filter(s =>
+      !term || p.name.toLowerCase().includes(term) ||
+      s.id.toLowerCase().includes(term) || s.ex.toLowerCase().includes(term) ||
+      p.blurb.toLowerCase().includes(term)
+    );
+    if (term && matched.length === 0 && !p.name.toLowerCase().includes(term) && !p.blurb.toLowerCase().includes(term)) continue;
+
+    const visible = term ? matched : p.skills;
+    const top = visible.slice(0, 4);
+    const rest = visible.slice(4);
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="head">
+        <h2>${p.name}</h2>
+        <span class="badge ${p.cat}">${p.badge}</span>
+      </div>
+      <p class="blurb">${p.blurb}</p>
+      <div class="skills"></div>
+    `;
+    const skillsEl = card.querySelector(".skills");
+    for (const s of top) skillsEl.appendChild(skillRow(s));
+    if (rest.length) {
+      const det = document.createElement("details");
+      det.className = "more";
+      det.innerHTML = `<summary>Show ${rest.length} more</summary>`;
+      const inner = document.createElement("div");
+      inner.className = "skills";
+      for (const s of rest) inner.appendChild(skillRow(s));
+      det.appendChild(inner);
+      card.appendChild(det);
+    }
+    grid.appendChild(card);
+    total += visible.length;
+  }
+
+  count.textContent = `${PLUGINS.length} plugins · ${total} skills shown`;
+}
+
+function skillRow(s) {
+  const row = document.createElement("div");
+  row.className = "skill";
+  row.innerHTML = `
+    <div class="body">
+      <div class="name">${s.id}</div>
+      <p class="ex">${escapeHtml(s.ex)}</p>
+    </div>
+    <button class="copy" data-text="${escapeAttr(s.ex)}">Copy</button>
+  `;
+  return row;
+}
+
+function escapeHtml(s) { return s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"})[c]); }
+function escapeAttr(s) { return s.replace(/"/g,"&quot;"); }
+
+grid.addEventListener("click", e => {
+  const btn = e.target.closest(".copy");
+  if (!btn) return;
+  const text = btn.dataset.text;
+  navigator.clipboard?.writeText(text).then(() => {
+    const old = btn.textContent;
+    btn.textContent = "Copied";
+    btn.classList.add("done");
+    setTimeout(() => { btn.textContent = old; btn.classList.remove("done"); }, 1200);
+  }).catch(() => {});
+});
+
+filters.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  filters.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  render();
+});
+
+q.addEventListener("input", render);
+render();
+</script>
+</body>
+</html>

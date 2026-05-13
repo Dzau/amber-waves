@@ -1,0 +1,937 @@
+<!-- AMBER WAVES — Act 1 Prototype -->
+<!-- Truck-stop neon. LeetCode-skinned narrative. -->
+<meta charset="utf-8">
+<title>AMBER WAVES — Act 1 Prototype</title>
+<style>
+  :root {
+    --bg-0: #0a0907;
+    --bg-1: #14110d;
+    --bg-2: #1c1812;
+    --dust: #2a241c;
+    --amber: #ffb142;
+    --amber-hot: #ff9f1a;
+    --pink: #ff2e88;
+    --cyan: #3ad8ff;
+    --rust: #a83232;
+    --bone: #e8dfc8;
+    --ink: #b9b09a;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg-0);
+    color: var(--bone);
+    font-family: "Iowan Old Style", "Charter", Georgia, serif;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  /* dust grain overlay */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(rgba(255,177,66,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(58,216,255,0.03) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 9999;
+  }
+  /* faint scanline for terminal moments */
+  .crt {
+    position: relative;
+  }
+  .crt::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(58,216,255,0.04) 0 1px,
+      transparent 1px 3px
+    );
+    pointer-events: none;
+  }
+  header.title {
+    padding: 80px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--dust);
+    background:
+      radial-gradient(ellipse at center top, rgba(255,177,66,0.18), transparent 60%),
+      radial-gradient(ellipse at 30% 80%, rgba(255,46,136,0.12), transparent 50%),
+      var(--bg-1);
+  }
+  header.title h1 {
+    font-family: "Bebas Neue", "Oswald", "Arial Narrow", sans-serif;
+    font-size: clamp(56px, 11vw, 140px);
+    letter-spacing: 0.06em;
+    margin: 0;
+    color: var(--amber);
+    text-shadow:
+      0 0 8px rgba(255,177,66,0.6),
+      0 0 24px rgba(255,159,26,0.45),
+      0 0 48px rgba(255,46,136,0.25);
+  }
+  header.title .sub {
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    color: var(--cyan);
+    letter-spacing: 0.4em;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  header.title .deck {
+    color: var(--pink);
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    margin-top: 14px;
+    text-transform: uppercase;
+  }
+
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  .scene {
+    padding: 56px 0 32px;
+    border-bottom: 1px dashed var(--dust);
+  }
+  .scene-meta {
+    font-family: "Courier New", monospace;
+    color: var(--cyan);
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .scene-meta .num { color: var(--amber); }
+  .scene-meta .loc { color: var(--pink); }
+  .scene h2 {
+    font-family: "Bebas Neue", "Oswald", sans-serif;
+    font-size: 38px;
+    letter-spacing: 0.04em;
+    color: var(--amber);
+    margin: 0 0 18px;
+    text-shadow: 0 0 8px rgba(255,177,66,0.4);
+  }
+
+  .art {
+    width: 100%;
+    border: 1px solid var(--dust);
+    border-radius: 2px;
+    background: #07060a;
+    margin: 12px 0 24px;
+    display: block;
+  }
+
+  p { margin: 0 0 14px; }
+  p.prose { color: var(--bone); }
+  p.beat {
+    font-family: "Courier New", monospace;
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Dialogue blocks — VA-11 HALL-A / Disco Elysium feel */
+  .dialog {
+    border-left: 3px solid var(--amber);
+    padding: 10px 16px 10px 14px;
+    margin: 14px 0;
+    background: linear-gradient(90deg, rgba(255,177,66,0.05), transparent 70%);
+  }
+  .dialog.halo { border-color: var(--pink); background: linear-gradient(90deg, rgba(255,46,136,0.06), transparent 70%); }
+  .dialog.ren { border-color: var(--amber); }
+  .dialog.unknown { border-color: var(--rust); background: linear-gradient(90deg, rgba(168,50,50,0.08), transparent 70%); }
+  .speaker {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 4px;
+  }
+  .speaker.halo { color: var(--pink); }
+  .speaker.ren { color: var(--amber); }
+  .speaker.unknown { color: var(--rust); }
+  .dialog .line { color: var(--bone); font-style: italic; }
+
+  /* Character cards */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (max-width: 720px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+  .card {
+    border: 1px solid var(--dust);
+    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    padding: 16px;
+    position: relative;
+  }
+  .card .portrait { width: 100%; height: 180px; display: block; }
+  .card .name {
+    font-family: "Bebas Neue", "Oswald", sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    color: var(--amber);
+    margin: 8px 0 0;
+  }
+  .card .handle {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    color: var(--pink);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .card .role {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .card p { font-size: 14px; color: var(--ink); margin-top: 10px; }
+  .card.halo .name { color: var(--pink); }
+
+  /* Puzzle box — the LeetCode-skinned encounter */
+  .puzzle {
+    margin: 24px 0;
+    border: 1px solid var(--cyan);
+    background: #050a0c;
+    padding: 18px;
+    box-shadow: 0 0 0 1px rgba(58,216,255,0.15) inset, 0 0 24px rgba(58,216,255,0.08);
+  }
+  .puzzle .tag {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 6px;
+  }
+  .puzzle h3 {
+    margin: 0 0 8px;
+    font-family: "Bebas Neue", "Oswald", sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    color: var(--cyan);
+  }
+  .puzzle .flavor { color: var(--ink); font-size: 14px; margin-bottom: 12px; }
+  .puzzle pre {
+    background: #02060a;
+    border: 1px solid #0e2330;
+    color: var(--bone);
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    margin: 6px 0 10px;
+    white-space: pre-wrap;
+  }
+  .puzzle label {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .puzzle input, .puzzle textarea {
+    width: 100%;
+    background: #02060a;
+    color: var(--bone);
+    border: 1px solid #0e2330;
+    padding: 8px 10px;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .puzzle textarea { min-height: 60px; resize: vertical; }
+  .puzzle button {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .puzzle button:hover {
+    background: rgba(255,177,66,0.1);
+    box-shadow: 0 0 12px rgba(255,177,66,0.3);
+  }
+  .puzzle .verdict {
+    margin-top: 10px;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+  }
+  .puzzle .verdict.pass { color: var(--cyan); }
+  .puzzle .verdict.fail { color: var(--rust); }
+  .puzzle .reveal {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .puzzle .reveal a {
+    color: var(--cyan);
+    cursor: pointer;
+    text-decoration: underline dotted;
+  }
+  .puzzle .reveal pre { display: none; }
+  .puzzle .reveal.open pre { display: block; }
+
+  /* Career note callout */
+  .career {
+    border-left: 3px solid var(--pink);
+    padding: 10px 14px;
+    margin: 12px 0 0;
+    background: linear-gradient(90deg, rgba(255,46,136,0.08), transparent 70%);
+    font-size: 13px;
+    color: var(--bone);
+  }
+  .career .lead {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-right: 8px;
+  }
+
+  /* World map */
+  .map-wrap {
+    border: 1px solid var(--dust);
+    background: #060505;
+    padding: 16px;
+    margin: 16px 0 24px;
+  }
+  .map-wrap h2 {
+    margin: 0 0 8px;
+    font-family: "Bebas Neue", "Oswald", sans-serif;
+    color: var(--amber);
+    font-size: 28px;
+    letter-spacing: 0.05em;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 10px;
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .legend .swatch {
+    display: inline-block;
+    width: 10px; height: 10px;
+    margin-right: 6px;
+    vertical-align: middle;
+    border-radius: 2px;
+  }
+
+  /* Cliffhanger */
+  .cliff {
+    margin-top: 40px;
+    padding: 28px 24px;
+    border: 1px solid var(--rust);
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(168,50,50,0.18), transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(255,46,136,0.1), transparent 60%),
+      var(--bg-1);
+    text-align: center;
+  }
+  .cliff .lead {
+    font-family: "Courier New", monospace;
+    color: var(--rust);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+  .cliff h2 {
+    font-family: "Bebas Neue", "Oswald", sans-serif;
+    font-size: 56px;
+    letter-spacing: 0.06em;
+    color: var(--amber);
+    margin: 12px 0;
+    text-shadow: 0 0 16px rgba(255,177,66,0.5);
+  }
+  .cliff p { color: var(--ink); max-width: 540px; margin: 0 auto; }
+
+  footer {
+    padding: 24px;
+    text-align: center;
+    color: var(--ink);
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* small things */
+  .neon-pink { color: var(--pink); }
+  .neon-amber { color: var(--amber); }
+  .neon-cyan { color: var(--cyan); }
+  .ascii {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    color: var(--ink);
+    white-space: pre;
+    line-height: 1.1;
+    margin: 8px 0;
+  }
+</style>
+
+<header class="title">
+  <div class="sub">A LeetCode-Skinned Cyberpunk Story // PROTOTYPE BUILD 0.1</div>
+  <h1>AMBER WAVES</h1>
+  <div class="deck">Act One // The Belt &middot; The Diner &middot; The Wire</div>
+</header>
+
+<main>
+
+<!-- =================== WORLD MAP =================== -->
+<section class="map-wrap">
+  <h2>The Continent, 2071</h2>
+  <p class="prose" style="font-size:14px;color:var(--ink);">
+    The federal government dissolved in pieces, not all at once. What's left is layered:
+    three corporate Spires above sea level, two fragile successor republics in between,
+    and the decay tier underneath everything &mdash; where the wire is cheap, the law is
+    a rumor, and the data is rich.
+  </p>
+  <svg class="art" viewBox="0 0 940 360" xmlns="http://www.w3.org/2000/svg" aria-label="Continental map">
+    <defs>
+      <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#1a0c1f"/>
+        <stop offset="0.6" stop-color="#2a1b14"/>
+        <stop offset="1" stop-color="#0a0907"/>
+      </linearGradient>
+      <radialGradient id="glow-amber" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#ffb142" stop-opacity="0.6"/>
+        <stop offset="1" stop-color="#ffb142" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="glow-pink" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#ff2e88" stop-opacity="0.6"/>
+        <stop offset="1" stop-color="#ff2e88" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="glow-cyan" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#3ad8ff" stop-opacity="0.5"/>
+        <stop offset="1" stop-color="#3ad8ff" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="940" height="360" fill="url(#sky)"/>
+    <!-- continent outline (stylized, not geographic) -->
+    <path d="M 60 180 Q 90 110 200 100 Q 320 80 460 110 Q 580 90 720 120 Q 860 140 880 220 Q 880 280 760 290 Q 640 310 480 295 Q 320 310 200 290 Q 80 280 60 220 Z"
+          fill="#0f0d0a" stroke="#3a2f24" stroke-width="1"/>
+    <!-- Spires (top tier) -->
+    <g>
+      <circle cx="780" cy="155" r="55" fill="url(#glow-cyan)"/>
+      <circle cx="780" cy="155" r="6" fill="#3ad8ff"/>
+      <text x="780" y="185" text-anchor="middle" fill="#3ad8ff" font-family="Courier New, monospace" font-size="10" letter-spacing="2">ATLANTIC COMBINE</text>
+
+      <circle cx="350" cy="135" r="55" fill="url(#glow-cyan)"/>
+      <circle cx="350" cy="135" r="6" fill="#3ad8ff"/>
+      <text x="350" y="118" text-anchor="middle" fill="#3ad8ff" font-family="Courier New, monospace" font-size="10" letter-spacing="2">LAKE SPIRE</text>
+
+      <circle cx="120" cy="175" r="55" fill="url(#glow-cyan)"/>
+      <circle cx="120" cy="175" r="6" fill="#3ad8ff"/>
+      <text x="120" y="158" text-anchor="middle" fill="#3ad8ff" font-family="Courier New, monospace" font-size="10" letter-spacing="2">PACIFIC SPIRE</text>
+    </g>
+    <!-- Mid tier (republics) -->
+    <g>
+      <ellipse cx="200" cy="230" rx="80" ry="22" fill="url(#glow-amber)"/>
+      <text x="200" y="234" text-anchor="middle" fill="#ffb142" font-family="Courier New, monospace" font-size="11" letter-spacing="2">CASCADIA FREE REPUBLIC</text>
+
+      <ellipse cx="500" cy="250" rx="90" ry="22" fill="url(#glow-amber)"/>
+      <text x="500" y="254" text-anchor="middle" fill="#ffb142" font-family="Courier New, monospace" font-size="11" letter-spacing="2">TEXICAN STRIP</text>
+    </g>
+    <!-- Decay tier -->
+    <g>
+      <ellipse cx="650" cy="200" rx="55" ry="18" fill="url(#glow-pink)"/>
+      <text x="650" y="204" text-anchor="middle" fill="#ff2e88" font-family="Courier New, monospace" font-size="10" letter-spacing="2">DETROIT</text>
+
+      <ellipse cx="280" cy="290" rx="65" ry="18" fill="url(#glow-pink)"/>
+      <text x="280" y="294" text-anchor="middle" fill="#ff2e88" font-family="Courier New, monospace" font-size="10" letter-spacing="2">PHOENIX WILDS</text>
+
+      <ellipse cx="500" cy="180" rx="80" ry="14" fill="url(#glow-pink)"/>
+      <text x="500" y="184" text-anchor="middle" fill="#ff2e88" font-family="Courier New, monospace" font-size="10" letter-spacing="2">THE BELT</text>
+    </g>
+    <!-- routes -->
+    <g stroke="#ffb142" stroke-width="0.6" stroke-dasharray="3 3" fill="none" opacity="0.45">
+      <path d="M 500 180 Q 380 210 200 230"/>
+      <path d="M 500 180 Q 500 215 500 250"/>
+      <path d="M 500 180 Q 575 190 650 200"/>
+    </g>
+    <!-- "you are here" pin in the Belt -->
+    <g>
+      <circle cx="500" cy="180" r="3" fill="#ff2e88"/>
+      <circle cx="500" cy="180" r="9" fill="none" stroke="#ff2e88" stroke-width="0.8" opacity="0.6">
+        <animate attributeName="r" from="6" to="14" dur="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" from="0.7" to="0" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="500" y="160" text-anchor="middle" fill="#ff2e88" font-family="Courier New, monospace" font-size="9" letter-spacing="2">YOU ARE HERE</text>
+    </g>
+  </svg>
+  <div class="legend">
+    <span><span class="swatch" style="background:#3ad8ff"></span> Spires &mdash; Corporate</span>
+    <span><span class="swatch" style="background:#ffb142"></span> Republics &mdash; Mid</span>
+    <span><span class="swatch" style="background:#ff2e88"></span> Decay Tier &mdash; Lawless</span>
+  </div>
+</section>
+
+<!-- =================== CHARACTER CARDS =================== -->
+<section class="cards">
+  <div class="card ren">
+    <svg class="portrait" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" aria-label="Ren Mercer portrait">
+      <rect width="200" height="180" fill="#0e0a06"/>
+      <!-- diner backlight -->
+      <rect x="0" y="0" width="200" height="180" fill="url(#g-amber-bg)"/>
+      <defs>
+        <radialGradient id="g-amber-bg" cx="0.5" cy="0.4" r="0.6">
+          <stop offset="0" stop-color="#ffb142" stop-opacity="0.18"/>
+          <stop offset="1" stop-color="#ffb142" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- silhouette: hooded figure -->
+      <path d="M 70 170 Q 60 130 70 110 Q 65 90 80 75 Q 100 55 120 75 Q 135 90 130 110 Q 140 130 130 170 Z"
+            fill="#1a1410" stroke="#ffb142" stroke-width="0.6"/>
+      <!-- face shadow -->
+      <path d="M 85 90 Q 100 80 115 90 L 115 110 Q 100 115 85 110 Z" fill="#0a0806"/>
+      <!-- glowing data lens (one eye) -->
+      <circle cx="108" cy="100" r="3" fill="#ffb142" opacity="0.9"/>
+      <circle cx="108" cy="100" r="6" fill="none" stroke="#ffb142" stroke-width="0.5" opacity="0.5"/>
+      <!-- jacket collar -->
+      <path d="M 75 130 L 100 145 L 125 130" fill="none" stroke="#ff2e88" stroke-width="1" opacity="0.6"/>
+      <!-- CB-radio cable on shoulder -->
+      <path d="M 78 120 Q 70 135 75 150" fill="none" stroke="#3ad8ff" stroke-width="0.6" opacity="0.7" stroke-dasharray="2 2"/>
+    </svg>
+    <div class="role">// Data Forager &middot; Belt-side</div>
+    <div class="name">REN MERCER</div>
+    <div class="handle">handle: mercer.sql</div>
+    <p>Runs queries against decaying corp databases for whichever info broker is paying. Carries a beat-up datapad and a sidearm he's only fired once. Used to work for Lake Spire's logistics arm before something inside him broke. Knows SQL like a mechanic knows a carburetor.</p>
+  </div>
+  <div class="card halo">
+    <svg class="portrait" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" aria-label="Halo Quinn portrait">
+      <rect width="200" height="180" fill="#0e0608"/>
+      <rect x="0" y="0" width="200" height="180" fill="url(#g-pink-bg)"/>
+      <defs>
+        <radialGradient id="g-pink-bg" cx="0.5" cy="0.4" r="0.6">
+          <stop offset="0" stop-color="#ff2e88" stop-opacity="0.22"/>
+          <stop offset="1" stop-color="#ff2e88" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- silhouette: short hair, neural rig -->
+      <path d="M 70 170 Q 65 135 75 115 Q 70 95 90 78 Q 110 60 130 78 Q 140 95 132 115 Q 142 135 135 170 Z"
+            fill="#150a10" stroke="#ff2e88" stroke-width="0.6"/>
+      <path d="M 88 92 Q 102 84 116 92 L 116 108 Q 102 112 88 108 Z" fill="#0a0608"/>
+      <!-- ring of light (her "halo") -->
+      <ellipse cx="102" cy="70" rx="28" ry="6" fill="none" stroke="#ff2e88" stroke-width="1" opacity="0.9"/>
+      <ellipse cx="102" cy="70" rx="32" ry="8" fill="none" stroke="#ff2e88" stroke-width="0.5" opacity="0.4"/>
+      <!-- neural jack at temple -->
+      <circle cx="118" cy="98" r="2" fill="#3ad8ff"/>
+      <line x1="118" y1="98" x2="138" y2="105" stroke="#3ad8ff" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+    </svg>
+    <div class="role">// Netrunner &middot; Cascadia-coded, Belt-mobile</div>
+    <div class="name">HALO QUINN</div>
+    <div class="handle">real name: marlowe quinn</div>
+    <p>Runs the wire from a converted laundromat in Cascadia. Voice in Ren's earpiece for half his contracts. The handle "Halo" comes from the optic ring she wears when she's deep in a session &mdash; she calls it "the only thing keeping my head on straight." Don't use her real name unless you've earned it.</p>
+  </div>
+</section>
+
+<!-- =================== SCENE 1 =================== -->
+<section class="scene">
+  <div class="scene-meta"><span class="num">SCENE 01</span> &middot; <span class="loc">THE TANGERINE — TRUCK STOP DINER, NORTH BELT &middot; 02:14</span></div>
+  <h2>Two Coffees, One Checksum</h2>
+  <svg class="art" viewBox="0 0 940 280" xmlns="http://www.w3.org/2000/svg" aria-label="Truck stop diner at night">
+    <defs>
+      <linearGradient id="sky2" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#1a0a1c"/>
+        <stop offset="0.7" stop-color="#221208"/>
+        <stop offset="1" stop-color="#0a0907"/>
+      </linearGradient>
+    </defs>
+    <rect width="940" height="280" fill="url(#sky2)"/>
+    <!-- distant power lines -->
+    <g stroke="#3a2f24" stroke-width="0.6">
+      <line x1="0" y1="120" x2="940" y2="115"/>
+      <line x1="80" y1="100" x2="80" y2="180"/>
+      <line x1="320" y1="105" x2="320" y2="180"/>
+      <line x1="600" y1="98" x2="600" y2="180"/>
+      <line x1="860" y1="102" x2="860" y2="180"/>
+    </g>
+    <!-- horizon dust -->
+    <rect x="0" y="180" width="940" height="100" fill="#0c0805"/>
+    <!-- diner -->
+    <rect x="280" y="140" width="380" height="80" fill="#1a1410" stroke="#3a2f24"/>
+    <rect x="290" y="155" width="50" height="40" fill="#ffb142" opacity="0.6"/>
+    <rect x="350" y="155" width="50" height="40" fill="#ffb142" opacity="0.6"/>
+    <rect x="410" y="155" width="50" height="40" fill="#ffb142" opacity="0.6"/>
+    <rect x="470" y="155" width="50" height="40" fill="#ffb142" opacity="0.6"/>
+    <rect x="530" y="155" width="50" height="40" fill="#ffb142" opacity="0.6"/>
+    <rect x="590" y="155" width="50" height="40" fill="#ffb142" opacity="0.6"/>
+    <!-- neon sign -->
+    <g>
+      <text x="470" y="125" text-anchor="middle" fill="#ff2e88" font-family="Bebas Neue, Oswald, sans-serif" font-size="34" letter-spacing="3" style="filter: drop-shadow(0 0 6px #ff2e88);">THE TANGERINE</text>
+      <text x="470" y="145" text-anchor="middle" fill="#ffb142" font-family="Courier New, monospace" font-size="9" letter-spacing="3" opacity="0.8">OPEN 25 HOURS &middot; DIESEL &middot; SHOWERS</text>
+    </g>
+    <!-- semi truck -->
+    <g>
+      <rect x="60" y="175" width="160" height="42" fill="#1a1410" stroke="#3a2f24"/>
+      <rect x="60" y="155" width="55" height="22" fill="#1a1410" stroke="#3a2f24"/>
+      <rect x="68" y="160" width="40" height="14" fill="#3ad8ff" opacity="0.4"/>
+      <circle cx="80" cy="222" r="8" fill="#0a0806" stroke="#3a2f24"/>
+      <circle cx="115" cy="222" r="8" fill="#0a0806" stroke="#3a2f24"/>
+      <circle cx="170" cy="222" r="8" fill="#0a0806" stroke="#3a2f24"/>
+      <circle cx="200" cy="222" r="8" fill="#0a0806" stroke="#3a2f24"/>
+    </g>
+    <!-- moon, scarred -->
+    <circle cx="820" cy="60" r="22" fill="#e8dfc8" opacity="0.7"/>
+    <circle cx="815" cy="55" r="3" fill="#0c0805" opacity="0.6"/>
+    <circle cx="828" cy="68" r="2" fill="#0c0805" opacity="0.6"/>
+    <!-- dust motes -->
+    <g fill="#ffb142" opacity="0.4">
+      <circle cx="200" cy="100" r="1"/>
+      <circle cx="430" cy="80" r="1"/>
+      <circle cx="700" cy="110" r="1"/>
+      <circle cx="850" cy="160" r="1"/>
+    </g>
+  </svg>
+
+  <p class="prose">Rain hasn't reached the Belt in seven months. The dust does the work rain used to &mdash; it lays itself across everything in a fine amber film, the color of old grain. <strong>Ren Mercer</strong> is in the corner booth at <em>The Tangerine</em>, datapad open, second coffee going cold. The booth's vinyl is split where someone's knife slipped, decades ago. Outside, a hauler idles, its running lights pulsing like a slow vital sign.</p>
+
+  <p class="beat">// the earpiece chirps once. twice. she's in.</p>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"Mercer. You there? Tell me you're somewhere with a real coffee maker and not one of those Belt-grade chemical wells."</div>
+  </div>
+
+  <div class="dialog ren">
+    <div class="speaker ren">REN</div>
+    <div class="line">"It's the Tangerine."</div>
+  </div>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"Cancer in a mug. Listen. I've got a contract, came in over a Cascadia relay but the originator pinged from Phoenix Wilds, which — yeah, I know. Pays fourteen kay-credit on confirmation, half on first verifiable extract. You want it?"</div>
+  </div>
+
+  <div class="dialog ren">
+    <div class="speaker ren">REN</div>
+    <div class="line">"What's the data."</div>
+  </div>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"That's the thing. The contract's first deliverable is a sanity check. They sent a list of corrupted manifest entries — partial integers — and a known checksum. They want us to confirm two of the entries sum to that checksum before they'll release the rest of the payload. It's a smell test, Mercer. They want to know we're real before they pay."</div>
+  </div>
+
+  <p class="prose">Ren slides his datapad to the center of the table. The screen catches the diner's amber bulb and turns it the color of warm whiskey. Halo's payload lands &mdash; a flat array of integers and a target value. He cracks his neck.</p>
+
+  <!-- PUZZLE 1: TWO SUM -->
+  <div class="puzzle crt">
+    <div class="tag">// FIELD ENCOUNTER 01 — SANITY CHECK</div>
+    <h3>Pair the Manifest</h3>
+    <p class="flavor">Halo dumps the corrupted manifest array onto your datapad. The contract demands you find the indices of the two values that sum exactly to the target checksum. Return them as a comma-separated pair, smaller index first. The diner's espresso machine hisses behind you. Two more headlights have just pulled into the lot.</p>
+    <pre>nums   = [11, 2, 15, 7, 4, -3]
+target = 9
+
+// Find indices i, j such that nums[i] + nums[j] = target.
+// Each input has exactly one solution. Don't use the same index twice.</pre>
+    <label>YOUR ANSWER (e.g. <span style="color:var(--bone)">1,3</span>)</label>
+    <input id="p1-input" placeholder="i,j" autocomplete="off"/>
+    <button onclick="checkP1()">SUBMIT</button>
+    <div id="p1-verdict" class="verdict"></div>
+    <div class="reveal" id="p1-reveal">
+      <a onclick="this.parentElement.classList.toggle('open')">show approach &rsaquo;</a>
+      <pre>// O(n) hash-map approach — the one interviewers want to see.
+def two_sum(nums, target):
+    seen = {}                    # value -&gt; index
+    for i, x in enumerate(nums):
+        need = target - x
+        if need in seen:
+            return [seen[need], i]
+        seen[x] = i
+// Brute force is O(n^2) and will get you a polite "can you do better?"</pre>
+    </div>
+    <div class="career">
+      <span class="lead">DS / CS CAREER NOTE</span>
+      This is <strong>LeetCode #1: Two Sum</strong> &mdash; literally the most-asked screening question in the industry. The lesson is bigger than the problem: a hash map turns an O(n²) double-loop into an O(n) single pass. That same trick &mdash; "trade memory for time, look up instead of scan" &mdash; is the heart of indexing in databases, caching in distributed systems, and feature lookups in ML pipelines. You will use this pattern for the rest of your career.
+    </div>
+  </div>
+
+  <p class="prose">The pair lands. The datapad chimes once &mdash; a small clean tone, the kind of sound that doesn't belong in the Belt. Halo's voice comes back, half a smile in it.</p>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"Confirmed. They're sending the rest. Mercer — they're sending a lot."</div>
+  </div>
+</section>
+
+<!-- =================== SCENE 2 =================== -->
+<section class="scene">
+  <div class="scene-meta"><span class="num">SCENE 02</span> &middot; <span class="loc">THE TANGERINE — BOOTH FOUR &middot; 02:31</span></div>
+  <h2>Two Convoys, One Window</h2>
+
+  <svg class="art" viewBox="0 0 940 200" xmlns="http://www.w3.org/2000/svg" aria-label="Datapad screen with scrolling logs">
+    <rect width="940" height="200" fill="#04070a"/>
+    <g font-family="Courier New, monospace" font-size="11" fill="#3ad8ff" opacity="0.85">
+      <text x="20" y="24">[02:14:08]  CONVOY A  HAULER-771  belt-east   pkg=ag-grade  weight=12.4t</text>
+      <text x="20" y="42">[02:15:30]  CONVOY A  HAULER-771  belt-east   pkg=ag-grade  weight=12.4t</text>
+      <text x="20" y="60">[02:18:22]  CONVOY B  RUNNER-204  cascadia    pkg=biotech    weight=0.9t</text>
+      <text x="20" y="78">[02:19:01]  CONVOY A  HAULER-803  belt-east   pkg=mil-spec   weight=8.1t</text>
+      <text x="20" y="96">[02:21:44]  CONVOY B  RUNNER-204  cascadia    pkg=biotech    weight=0.9t</text>
+      <text x="20" y="114">[02:24:11]  CONVOY A  HAULER-803  belt-east   pkg=mil-spec   weight=8.1t</text>
+      <text x="20" y="132">[02:26:55]  CONVOY B  RUNNER-115  cascadia    pkg=encrypted  weight=0.2t</text>
+      <text x="20" y="150">[02:29:30]  CONVOY A  HAULER-922  spire-link  pkg=███████   weight=??.?t</text>
+      <text x="20" y="168">[02:30:09]  CONVOY B  RUNNER-115  cascadia    pkg=encrypted  weight=0.2t</text>
+    </g>
+    <rect x="0" y="0" width="940" height="200" fill="url(#scan)"/>
+    <defs>
+      <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+        <rect width="4" height="1" fill="#3ad8ff" opacity="0.05"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <p class="prose">The payload is two intercepted convoy logs, sorted by timestamp on each side but interleaved out-of-order between them. Halo wants a single merged timeline so the pattern jumps out. Ren's seen this before &mdash; somebody on Convoy A just hauled something they don't want named on Convoy B's window.</p>
+
+  <p class="beat">// outside: a third pair of headlights kills its lights as it parks. then a fourth.</p>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"Mercer, I'm reading two more vehicles in the lot, no plates I can pull. You've got four minutes. Stitch the logs into one timeline so I can see what Convoy A's hiding inside Convoy B's window. Sorted ascending. Go."</div>
+  </div>
+
+  <!-- PUZZLE 2: MERGE TWO SORTED LISTS -->
+  <div class="puzzle crt">
+    <div class="tag">// FIELD ENCOUNTER 02 — TIMELINE STITCH</div>
+    <h3>Merge the Convoys</h3>
+    <p class="flavor">You have two lists of timestamps (in seconds since midnight), each already sorted. Merge them into a single sorted list. Submit as comma-separated values.</p>
+    <pre>convoy_A = [8048, 8730, 8941, 9251, 9550]   // sorted ascending
+convoy_B = [8302, 8804, 9704, 9809]         // sorted ascending
+
+// Output: a single ascending list combining both.</pre>
+    <label>YOUR ANSWER (comma-separated)</label>
+    <input id="p2-input" placeholder="8048,8302,..." autocomplete="off"/>
+    <button onclick="checkP2()">SUBMIT</button>
+    <div id="p2-verdict" class="verdict"></div>
+    <div class="reveal" id="p2-reveal">
+      <a onclick="this.parentElement.classList.toggle('open')">show approach &rsaquo;</a>
+      <pre>// Two-pointer merge — O(n + m), no extra sort needed.
+def merge(a, b):
+    i, j, out = 0, 0, []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            out.append(a[i]); i += 1
+        else:
+            out.append(b[j]); j += 1
+    out.extend(a[i:]); out.extend(b[j:])
+    return out</pre>
+    </div>
+    <div class="career">
+      <span class="lead">DS / CS CAREER NOTE</span>
+      This is <strong>LeetCode #21: Merge Two Sorted Lists</strong>, and the technique &mdash; a two-pointer linear merge &mdash; is the engine inside merge sort, the merge step in MapReduce, and the way every database stitches sorted index scans into a final result set. The "linear, no resort" instinct is what separates someone who has read about algorithms from someone who has used them.
+    </div>
+  </div>
+
+  <p class="prose">The merged timeline assembles itself on the datapad. There's a four-minute hole in Convoy A's record where a vehicle marked HAULER-922 ran a route labeled <span class="neon-cyan">spire-link</span> with a redacted package. Halo whistles low.</p>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"Spire-link. From the Belt. That's not supposed to exist. Mercer, do not finish your coffee. We're upgrading the stakes."</div>
+  </div>
+</section>
+
+<!-- =================== SCENE 3 =================== -->
+<section class="scene">
+  <div class="scene-meta"><span class="num">SCENE 03</span> &middot; <span class="loc">THE TANGERINE — PARKING LOT &middot; 02:38</span></div>
+  <h2>An Encrypted Handshake from a Stranger</h2>
+
+  <svg class="art" viewBox="0 0 940 200" xmlns="http://www.w3.org/2000/svg" aria-label="Two figures approaching at the lot edge">
+    <defs>
+      <radialGradient id="lotglow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#ffb142" stop-opacity="0.4"/>
+        <stop offset="1" stop-color="#ffb142" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="940" height="200" fill="#0a0907"/>
+    <!-- sodium lamp pool -->
+    <ellipse cx="470" cy="170" rx="280" ry="50" fill="url(#lotglow)"/>
+    <!-- sodium lamp -->
+    <line x1="470" y1="20" x2="470" y2="60" stroke="#3a2f24" stroke-width="2"/>
+    <circle cx="470" cy="65" r="6" fill="#ffb142" opacity="0.95" style="filter: drop-shadow(0 0 14px #ffb142);"/>
+    <!-- two silhouettes approaching -->
+    <g fill="#0a0907" stroke="#ff2e88" stroke-width="0.7">
+      <path d="M 360 180 Q 358 150 365 135 Q 360 122 370 115 Q 380 108 388 115 Q 398 122 393 135 Q 400 150 396 180 Z"/>
+      <path d="M 560 180 Q 558 148 568 132 Q 562 118 575 110 Q 588 102 598 110 Q 612 118 605 132 Q 615 148 608 180 Z"/>
+    </g>
+    <!-- distant pumps -->
+    <g stroke="#3a2f24" stroke-width="1" fill="none">
+      <rect x="100" y="140" width="20" height="40"/>
+      <rect x="820" y="140" width="20" height="40"/>
+    </g>
+    <text x="470" y="40" text-anchor="middle" fill="#ff2e88" font-family="Courier New, monospace" font-size="10" letter-spacing="3" opacity="0.8">// UNKNOWN PARTIES &middot; LOT EDGE</text>
+  </svg>
+
+  <p class="prose">The two figures don't come into the diner. They wait in the lot, just inside the lamp's amber pool. A datapad ping hits Ren's table &mdash; from a relay he doesn't recognize. The packet is unsigned, headerless, and looks like it was thrown together in a panic.</p>
+
+  <div class="dialog unknown">
+    <div class="speaker unknown">// UNKNOWN SENDER</div>
+    <div class="line">"if you can read this validate the wrapping then come outside alone we don't have long the spire is moving the belt is the buyer"</div>
+  </div>
+
+  <p class="prose">Halo's voice is sharp now &mdash; her playful diner-coffee voice gone.</p>
+
+  <div class="dialog halo">
+    <div class="speaker halo">HALO</div>
+    <div class="line">"Don't trust it. But check it. If the bracket structure is malformed it's a bot probe and we ghost. If it's clean, somebody actual wrote this. Validate the packet, Mercer — bracket-balance, every opener gets the right closer. If it parses, we know we're talking to a person."</div>
+  </div>
+
+  <!-- PUZZLE 3: VALID PARENTHESES -->
+  <div class="puzzle crt">
+    <div class="tag">// FIELD ENCOUNTER 03 — PACKET VALIDATION</div>
+    <h3>Is It a Person?</h3>
+    <p class="flavor">Below is the bracket envelope of the unsigned packet. A real handshake has every opener matched to its right closer in the right order. A bot probe almost always gets it wrong. Decide whether the string is balanced.</p>
+    <pre>packet_envelope = "{[()]([]{})}{[]}"
+
+// Valid if every '(' '[' '{' has a matching ')' ']' '}'
+// in correctly nested order.
+// Return: VALID  or  INVALID</pre>
+    <label>YOUR ANSWER</label>
+    <input id="p3-input" placeholder="VALID or INVALID" autocomplete="off"/>
+    <button onclick="checkP3()">SUBMIT</button>
+    <div id="p3-verdict" class="verdict"></div>
+    <div class="reveal" id="p3-reveal">
+      <a onclick="this.parentElement.classList.toggle('open')">show approach &rsaquo;</a>
+      <pre>// Stack-based, O(n).
+def is_valid(s):
+    pairs = {')': '(', ']': '[', '}': '{'}
+    stack = []
+    for ch in s:
+        if ch in '([{':
+            stack.append(ch)
+        else:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+    return not stack</pre>
+    </div>
+    <div class="career">
+      <span class="lead">DS / CS CAREER NOTE</span>
+      This is <strong>LeetCode #20: Valid Parentheses</strong>. The deeper lesson is that a stack &mdash; LIFO &mdash; is the natural data structure any time you have nested or recursive structure to validate: JSON parsers, HTML linters, compiler syntax checks, expression evaluators, depth-first traversals. When you reach for recursion, you're often reaching for a stack underneath. Recognizing the shape of a problem ("this nests &rarr; use a stack") is the meta-skill interviewers test for.
+    </div>
+  </div>
+
+  <p class="prose">The packet parses. Whoever wrote it is human, scared, and in a hurry. Ren slips the datapad into his jacket and slides out of the booth. The waitress doesn't look up. She's seen this before.</p>
+</section>
+
+<!-- =================== CLIFFHANGER =================== -->
+<section class="cliff">
+  <div class="lead">// END OF ACT ONE</div>
+  <h2>The Belt Is the Buyer</h2>
+  <p>
+    Ren steps into the sodium-amber lot. Halo is in his ear. The two figures hold their hands out, palms-up,
+    the universal sign for <em>I'm not the one you should be afraid of</em>. Behind them, a third vehicle
+    rolls in slow &mdash; black plates, Cascadia rebreather rig, no markings. Whatever's in HAULER-922,
+    someone in the Spires sold it down to the decay tier on purpose. Ren has thirty seconds to decide
+    which republic he's going to run to before the road decides for him.
+  </p>
+  <p style="margin-top:14px;">
+    <span class="neon-pink">ACT TWO &middot; CASCADIA OR TEXICAN STRIP &middot; YOU CHOOSE THE FORK.</span>
+  </p>
+</section>
+
+<footer>
+  AMBER WAVES &middot; Prototype Build 0.1 &middot; LeetCode-skinned narrative &middot; truck-stop neon
+</footer>
+
+</main>
+
+<script>
+  // --- PUZZLE 1: Two Sum ---
+  // nums = [11, 2, 15, 7, 4, -3], target = 9 -> indices of 2 and 7 = (1, 3)
+  function checkP1() {
+    const raw = document.getElementById('p1-input').value.trim();
+    const v = document.getElementById('p1-verdict');
+    const parts = raw.split(/[,\s]+/).filter(Boolean).map(Number);
+    if (parts.length !== 2 || parts.some(isNaN)) {
+      v.className = 'verdict fail';
+      v.textContent = '// MALFORMED INPUT — give two indices, comma-separated';
+      return;
+    }
+    const [i, j] = parts.sort((a,b)=>a-b);
+    const nums = [11, 2, 15, 7, 4, -3];
+    if (i < 0 || j >= nums.length || i === j) {
+      v.className = 'verdict fail';
+      v.textContent = '// INDICES OUT OF RANGE';
+      return;
+    }
+    if (nums[i] + nums[j] === 9) {
+      v.className = 'verdict pass';
+      v.textContent = '// VERIFIED  nums[' + i + '] + nums[' + j + '] = ' + nums[i] + ' + ' + nums[j] + ' = 9';
+    } else {
+      v.className = 'verdict fail';
+      v.textContent = '// CHECKSUM MISMATCH  nums[' + i + '] + nums[' + j + '] = ' + (nums[i] + nums[j]);
+    }
+  }
+
+  // --- PUZZLE 2: Merge Two Sorted Lists ---
+  function checkP2() {
+    const raw = document.getElementById('p2-input').value.trim();
+    const v = document.getElementById('p2-verdict');
+    const got = raw.split(/[,\s]+/).filter(Boolean).map(Number);
+    const want = [8048, 8302, 8730, 8804, 8941, 9251, 9550, 9704, 9809];
+    if (got.length !== want.length || got.some(isNaN)) {
+      v.className = 'verdict fail';
+      v.textContent = '// LENGTH OR FORMAT MISMATCH — expected ' + want.length + ' values';
+      return;
+    }
+    const ok = got.every((x, k) => x === want[k]);
+    if (ok) {
+      v.className = 'verdict pass';
+      v.textContent = '// TIMELINE STITCHED — convoy A gap detected at HAULER-922';
+    } else {
+      v.className = 'verdict fail';
+      v.textContent = '// SEQUENCE DRIFT — expected: ' + want.join(',');
+    }
+  }
+
+  // --- PUZZLE 3: Valid Parentheses ---
+  function checkP3() {
+    const raw = document.getElementById('p3-input').value.trim().toUpperCase();
+    const v = document.getElementById('p3-verdict');
+    const s = "{[()]([]{})}{[]}";
+    const pairs = { ')':'(', ']':'[', '}':'{' };
+    const stack = [];
+    let valid = true;
+    for (const ch of s) {
+      if ('([{'.includes(ch)) stack.push(ch);
+      else if (stack.pop() !== pairs[ch]) { valid = false; break; }
+    }
+    if (stack.length) valid = false;
+    const truth = valid ? 'VALID' : 'INVALID';
+    if (raw === truth) {
+      v.className = 'verdict pass';
+      v.textContent = valid
+        ? '// HANDSHAKE PARSED — packet is human, proceed to lot'
+        : '// PROBE DETECTED — ghost the relay';
+    } else if (raw === 'VALID' || raw === 'INVALID') {
+      v.className = 'verdict fail';
+      v.textContent = '// REJECTED — re-examine the bracket structure';
+    } else {
+      v.className = 'verdict fail';
+      v.textContent = '// UNRECOGNIZED INPUT — type VALID or INVALID';
+    }
+  }
+</script>

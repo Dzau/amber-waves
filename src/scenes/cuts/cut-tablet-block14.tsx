@@ -428,201 +428,264 @@ export function CutTabletBlock14({ className, style }: Props) {
 
       {/* Echo's hand — left, warm brown, withdrawing */}
       <g id="echo-hand">
-        {/* Forearm from left edge */}
+        {/* Forearm from left edge — tapers into wrist */}
         <path
-          d="M 0,378 Q 42,368 82,358 Q 132,346 178,348 L 218,356
-             Q 232,360 236,374 L 226,418 Q 210,426 190,423
-             Q 154,416 114,420 Q 70,424 34,438 L 0,448 Z"
+          d="M 0,372 Q 50,362 100,356 Q 148,350 178,350
+             L 200,352 L 204,386 Q 174,390 140,392
+             Q 96,394 46,402 L 0,408 Z"
           fill="#c07848"
           stroke="#2c2c2e"
           strokeWidth="3"
         />
-        {/* Shadow underside */}
+        {/* Shadow underside of forearm */}
         <path
-          d="M 0,378 Q 38,370 78,360 Q 114,350 154,351 L 178,354
-             L 188,363 L 174,358 Q 128,356 84,366 Q 44,374 0,392 Z"
+          d="M 0,372 Q 48,364 96,358 Q 144,352 178,352
+             L 196,356 L 194,368 L 178,362 Q 140,360 96,366
+             Q 48,372 0,384 Z"
           fill="#8a4a28"
-          opacity="0.65"
+          opacity="0.55"
         />
         {/* Amber bounce — diner neon on skin */}
         <path
-          d="M 62,353 Q 114,348 162,352"
+          d="M 60,356 Q 114,350 168,354"
           stroke="#ffb700"
-          strokeWidth="3"
+          strokeWidth="2.5"
           fill="none"
           opacity="0.18"
         />
-        {/* Hand — fingers splayed open, releasing */}
+
+        {/* Wrist narrowing */}
         <path
-          d="M 218,353 Q 250,346 268,350 Q 275,353 271,366
-             L 243,383 Q 228,390 218,386 Q 208,380 212,366 Z"
+          d="M 198,350 L 218,348 L 222,390 L 202,390 Z"
+          fill="#c07848"
+          stroke="#2c2c2e"
+          strokeWidth="1.5"
+        />
+
+        {/* Palm — broad trapezoid, top-down view */}
+        <path
+          d="M 218,344 L 272,340 L 278,376 L 218,384 Z"
           fill="#c07848"
           stroke="#2c2c2e"
           strokeWidth="2.5"
         />
-        {/* Thumb */}
+        {/* Palm shadow — lower half darker */}
         <path
-          d="M 218,366 Q 210,356 214,346 Q 222,340 232,346"
-          fill="#b06838"
+          d="M 218,364 L 272,360 L 278,376 L 218,384 Z"
+          fill="#8a4a28"
+          opacity="0.38"
+        />
+        {/* Knuckle row highlight */}
+        <path
+          d="M 222,348 Q 248,344 272,341"
+          stroke="#f4ede4"
+          strokeWidth="1"
+          fill="none"
+          opacity="0.3"
+        />
+
+        {/* Thumb — extends downward from palm left edge, top-down */}
+        <path
+          d="M 220,374 L 222,390 Q 216,402 208,404
+             Q 198,404 196,394 Q 196,382 206,376 Z"
+          fill="#c07848"
           stroke="#2c2c2e"
           strokeWidth="2"
         />
-        {/* Fingers — released, splayed */}
+        {/* Thumb shadow */}
         <path
-          d="M 244,348 Q 257,336 264,340 Q 267,348 260,356"
-          stroke="#2c2c2e"
-          strokeWidth="1.8"
-          fill="none"
+          d="M 210,390 Q 204,400 198,398 Q 196,390 200,382 Z"
+          fill="#8a4a28"
+          opacity="0.4"
         />
+
+        {/* Index finger — topmost, slightly splayed */}
         <path
-          d="M 252,352 Q 267,342 272,347 Q 273,356 266,362"
+          d="M 240,340 L 248,338 L 258,318 Q 260,310 256,306
+             Q 250,303 246,308 L 234,328 L 234,340 Z"
+          fill="#c07848"
           stroke="#2c2c2e"
-          strokeWidth="1.5"
-          fill="none"
+          strokeWidth="2"
         />
+        {/* Index fingertip shadow */}
         <path
-          d="M 257,360 Q 270,352 274,358 Q 274,366 267,370"
+          d="M 248,312 Q 252,308 255,310 Q 256,316 252,320 Z"
+          fill="#8a4a28"
+          opacity="0.4"
+        />
+
+        {/* Middle finger — longest, straight up */}
+        <path
+          d="M 253,340 L 261,339 L 270,316 Q 272,307 268,303
+             Q 262,300 258,305 L 248,329 L 247,340 Z"
+          fill="#c07848"
           stroke="#2c2c2e"
-          strokeWidth="1.5"
-          fill="none"
+          strokeWidth="2"
         />
         {/* Ring on middle finger */}
         <rect
-          x="258"
-          y="340"
-          width="8"
-          height="5"
-          rx="2.5"
+          x="257"
+          y="320"
+          width="9"
+          height="6"
+          rx="3"
           fill="none"
           stroke="#ffb700"
           strokeWidth="2"
         />
-        {/* Knuckle highlights */}
-        <line
-          x1="228"
-          y1="354"
-          x2="232"
-          y2="350"
-          stroke="#f4ede4"
-          strokeWidth="1"
-          opacity="0.28"
+
+        {/* Ring finger */}
+        <path
+          d="M 263,341 L 271,340 L 278,319 Q 280,311 276,307
+             Q 270,304 266,309 L 258,330 L 258,341 Z"
+          fill="#c07848"
+          stroke="#2c2c2e"
+          strokeWidth="2"
         />
-        <line
-          x1="240"
-          y1="350"
-          x2="244"
-          y2="347"
-          stroke="#f4ede4"
-          strokeWidth="1"
-          opacity="0.28"
+
+        {/* Pinky — shortest, angled outward */}
+        <path
+          d="M 271,343 L 278,342 L 283,324 Q 284,316 281,313
+             Q 275,310 272,315 L 266,333 L 266,343 Z"
+          fill="#c07848"
+          stroke="#2c2c2e"
+          strokeWidth="2"
         />
+
         {/* Ground shadow */}
         <ellipse
-          cx="242"
+          cx="240"
           cy="392"
-          rx="40"
-          ry="6"
+          rx="42"
+          ry="5"
           fill="#0a0908"
-          opacity="0.28"
+          opacity="0.25"
         />
       </g>
 
       {/* Kai's hand — right, cooler, just touching edge, hesitant */}
       <g id="kai-hand">
-        {/* Forearm from right edge */}
+        {/* Forearm from right edge — tapers into wrist */}
         <path
-          d="M 960,418 Q 920,406 880,398 Q 834,388 794,390 L 754,396
-             Q 736,402 734,416 L 744,460 Q 758,468 784,464
-             Q 824,458 866,462 Q 908,466 938,476 L 960,483 Z"
+          d="M 960,412 Q 910,402 860,396 Q 812,390 782,390
+             L 760,392 L 756,426 Q 784,432 820,432
+             Q 864,432 914,440 L 960,448 Z"
           fill="#b89878"
           stroke="#2c2c2e"
           strokeWidth="3"
         />
-        {/* Shadow underside */}
+        {/* Shadow underside of forearm */}
         <path
-          d="M 960,418 Q 922,408 882,400 Q 840,391 800,392 L 758,398
-             L 750,408 L 758,400 Q 798,394 840,398 Q 880,402 920,412 L 960,422 Z"
+          d="M 960,412 Q 912,404 864,398 Q 816,392 782,392
+             L 764,396 L 762,410 L 778,400 Q 812,396 860,400
+             Q 908,404 960,416 Z"
           fill="#907058"
-          opacity="0.55"
+          opacity="0.5"
         />
-        {/* Halogen highlight on back of hand — newer to this light */}
+        {/* Halogen highlight on back of forearm */}
         <path
-          d="M 736,404 Q 750,398 764,402"
+          d="M 800,392 Q 830,388 860,392"
           stroke="#f4ede4"
           strokeWidth="1.5"
           fill="none"
           opacity="0.18"
         />
-        {/* Hand — fingertips barely making contact */}
+
+        {/* Wrist narrowing */}
         <path
-          d="M 758,392 Q 728,386 713,390 Q 704,394 706,408
-             L 722,428 Q 734,436 746,432 Q 760,426 760,413 Z"
+          d="M 762,390 L 742,392 L 738,428 L 758,428 Z"
+          fill="#b89878"
+          stroke="#2c2c2e"
+          strokeWidth="1.5"
+        />
+
+        {/* Palm — broad trapezoid, top-down view, mirror of Echo's */}
+        <path
+          d="M 742,386 L 688,382 L 682,418 L 742,424 Z"
           fill="#b89878"
           stroke="#2c2c2e"
           strokeWidth="2.5"
         />
-        {/* Thumb */}
+        {/* Palm shadow — lower half */}
         <path
-          d="M 760,413 Q 768,402 764,392 Q 756,386 746,392"
-          fill="#a88868"
-          stroke="#2c2c2e"
-          strokeWidth="2"
+          d="M 742,404 L 688,400 L 682,418 L 742,424 Z"
+          fill="#907058"
+          opacity="0.35"
         />
-        {/* Fingers — tentative, not yet gripping */}
+        {/* Knuckle row highlight */}
         <path
-          d="M 722,394 Q 710,382 704,386 Q 701,395 708,404"
-          stroke="#2c2c2e"
-          strokeWidth="1.8"
+          d="M 738,390 Q 714,386 688,383"
+          stroke="#f4ede4"
+          strokeWidth="1"
           fill="none"
+          opacity="0.3"
         />
+
+        {/* Thumb — extends downward from palm right edge, top-down */}
         <path
-          d="M 716,398 Q 704,388 699,393 Q 697,402 705,410"
-          stroke="#2c2c2e"
-          strokeWidth="1.5"
-          fill="none"
-        />
-        <path
-          d="M 712,406 Q 701,398 698,404 Q 696,412 705,416"
-          stroke="#2c2c2e"
-          strokeWidth="1.5"
-          fill="none"
-        />
-        {/* Single fingertip touching the tablet corner */}
-        <circle
-          cx="704"
-          cy="398"
-          r="5"
+          d="M 740,414 L 738,430 Q 744,442 752,444
+             Q 762,444 764,434 Q 764,422 754,416 Z"
           fill="#b89878"
           stroke="#2c2c2e"
           strokeWidth="2"
         />
-        {/* Knuckle highlights */}
-        <line
-          x1="730"
-          y1="396"
-          x2="726"
-          y2="392"
-          stroke="#f4ede4"
-          strokeWidth="1"
-          opacity="0.3"
+        {/* Thumb shadow */}
+        <path
+          d="M 750,430 Q 756,440 762,438 Q 764,430 760,422 Z"
+          fill="#907058"
+          opacity="0.4"
         />
-        <line
-          x1="718"
-          y1="400"
-          x2="714"
-          y2="396"
-          stroke="#f4ede4"
-          strokeWidth="1"
-          opacity="0.28"
+
+        {/* Index finger — topmost, slightly splayed left */}
+        <path
+          d="M 720,382 L 712,380 L 702,360 Q 700,352 704,348
+             Q 710,345 714,350 L 726,370 L 726,382 Z"
+          fill="#b89878"
+          stroke="#2c2c2e"
+          strokeWidth="2"
         />
+        {/* Index fingertip shadow */}
+        <path
+          d="M 712,354 Q 708,350 705,352 Q 704,358 708,362 Z"
+          fill="#907058"
+          opacity="0.4"
+        />
+
+        {/* Middle finger — longest, straight left */}
+        <path
+          d="M 707,382 L 699,381 L 690,358 Q 688,349 692,345
+             Q 698,342 702,347 L 712,371 L 713,382 Z"
+          fill="#b89878"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+
+        {/* Ring finger */}
+        <path
+          d="M 697,383 L 689,382 L 682,361 Q 680,353 684,349
+             Q 690,346 694,351 L 702,372 L 702,383 Z"
+          fill="#b89878"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+
+        {/* Pinky — shortest, angled outward */}
+        <path
+          d="M 689,385 L 682,384 L 677,366 Q 676,358 679,355
+             Q 685,352 688,357 L 694,375 L 694,385 Z"
+          fill="#b89878"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+
         {/* Ground shadow */}
         <ellipse
-          cx="728"
-          cy="436"
-          rx="36"
+          cx="720"
+          cy="432"
+          rx="42"
           ry="5"
           fill="#0a0908"
-          opacity="0.25"
+          opacity="0.22"
         />
       </g>
 

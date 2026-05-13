@@ -436,109 +436,135 @@ export function CutTabletBlock19({ className, style }: Props) {
 
       {/* Kai's hand — already closing, warmer lit, he knows what this is now */}
       <g id="kai-hand">
-        {/* Forearm — same entry from right, but warmer this time */}
+        {/* Forearm — same entry from right, tapers into wrist, warmer lit */}
         <path
-          d="M 960,408 Q 918,396 876,388 Q 830,378 788,380 L 748,386
-             Q 730,392 728,406 L 738,452 Q 752,460 778,456
-             Q 818,450 860,454 Q 902,458 932,468 L 960,475 Z"
+          d="M 960,406 Q 910,396 860,390 Q 812,384 782,384
+             L 760,386 L 756,420 Q 784,428 820,428
+             Q 864,428 914,436 L 960,444 Z"
           fill="#c4a888"
           stroke="#2c2c2e"
           strokeWidth="3"
         />
         {/* Warmer amber glow — he's been in the diner light long enough */}
         <path
-          d="M 740,392 Q 768,386 795,390"
+          d="M 790,386 Q 820,382 852,386"
           stroke="#ffb700"
           strokeWidth="2"
           fill="none"
           opacity="0.22"
         />
-        {/* Shadow underside */}
+        {/* Shadow underside of forearm */}
         <path
-          d="M 960,408 Q 920,398 880,390 Q 838,381 798,382 L 756,388
-             L 748,398 L 756,390 Q 796,384 838,388 Q 878,392 918,402 L 960,412 Z"
+          d="M 960,406 Q 912,398 864,392 Q 816,386 782,386
+             L 764,390 L 762,404 L 778,394 Q 812,390 860,394
+             Q 908,398 960,410 Z"
           fill="#987858"
-          opacity="0.5"
+          opacity="0.48"
         />
-        {/* Hand — fingers already closing around the tablet edge */}
+
+        {/* Wrist narrowing — slightly tighter than block14 to show grip tension */}
         <path
-          d="M 750,382 Q 718,374 702,378 Q 692,382 694,398
-             L 710,422 Q 724,432 738,428 Q 754,420 752,406 Z"
+          d="M 762,384 L 742,386 L 738,424 L 758,422 Z"
+          fill="#c4a888"
+          stroke="#2c2c2e"
+          strokeWidth="1.5"
+        />
+
+        {/* Palm — closing grip, same trapezoid, warmer tone */}
+        <path
+          d="M 742,380 L 686,376 L 680,416 L 742,420 Z"
           fill="#c4a888"
           stroke="#2c2c2e"
           strokeWidth="2.5"
         />
-        {/* Thumb — gripping */}
+        {/* Palm shadow */}
         <path
-          d="M 752,406 Q 762,394 758,382 Q 749,374 738,380"
-          fill="#b49878"
-          stroke="#2c2c2e"
-          strokeWidth="2"
+          d="M 742,400 L 686,396 L 680,416 L 742,420 Z"
+          fill="#987858"
+          opacity="0.35"
         />
-        {/* Fingers — closing, not tentative anymore */}
+        {/* Knuckle row — warmer highlight, amber tint */}
         <path
-          d="M 710,382 Q 696,368 690,372 Q 687,382 695,392"
-          stroke="#2c2c2e"
-          strokeWidth="1.8"
-          fill="none"
-        />
-        <path
-          d="M 704,386 Q 690,374 684,380 Q 681,390 690,398"
-          stroke="#2c2c2e"
-          strokeWidth="1.8"
-          fill="none"
-        />
-        <path
-          d="M 698,396 Q 685,388 682,395 Q 680,404 690,408"
-          stroke="#2c2c2e"
-          strokeWidth="1.8"
-          fill="none"
-        />
-        {/* Fingertip fully gripping — pressed against tablet */}
-        <ellipse
-          cx="688"
-          cy="388"
-          rx="7"
-          ry="6"
-          fill="#c4a888"
-          stroke="#2c2c2e"
-          strokeWidth="2"
-        />
-        {/* Knuckle highlights — warmer, more saturated this time */}
-        <line
-          x1="718"
-          y1="382"
-          x2="714"
-          y2="377"
+          d="M 738,384 Q 714,380 686,377"
           stroke="#ffb700"
           strokeWidth="1"
-          opacity="0.2"
-        />
-        <line
-          x1="706"
-          y1="386"
-          x2="702"
-          y2="381"
-          stroke="#ffb700"
-          strokeWidth="1"
-          opacity="0.18"
+          fill="none"
+          opacity="0.28"
         />
         {/* Halogen highlight on back of hand */}
         <path
-          d="M 730,384 Q 742,379 754,383"
+          d="M 730,382 Q 745,378 758,382"
           stroke="#f4ede4"
           strokeWidth="1.5"
           fill="none"
           opacity="0.22"
         />
+
+        {/* Thumb — gripping, extends downward from palm right edge */}
+        <path
+          d="M 740,410 L 738,428 Q 744,440 752,442
+             Q 762,442 764,432 Q 764,420 754,412 Z"
+          fill="#c4a888"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+        {/* Thumb shadow — gripping tension */}
+        <path
+          d="M 750,428 Q 756,438 762,436 Q 764,428 760,420 Z"
+          fill="#987858"
+          opacity="0.45"
+        />
+
+        {/* Index finger — closing inward, tip curled slightly */}
+        <path
+          d="M 720,376 L 712,374 L 700,352 Q 698,344 702,340
+             Q 708,337 712,342 L 726,364 L 726,376 Z"
+          fill="#c4a888"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+        {/* Index tip — closing, slight shadow at tip */}
+        <path
+          d="M 702,346 Q 698,342 700,340 Q 706,338 710,344 Z"
+          fill="#987858"
+          opacity="0.45"
+        />
+
+        {/* Middle finger — longest, closing around tablet edge */}
+        <path
+          d="M 707,376 L 699,375 L 688,352 Q 686,343 690,339
+             Q 696,336 700,341 L 712,365 L 713,376 Z"
+          fill="#c4a888"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+
+        {/* Ring finger — closing */}
+        <path
+          d="M 697,378 L 689,377 L 680,355 Q 678,347 682,343
+             Q 688,340 692,345 L 702,368 L 702,378 Z"
+          fill="#c4a888"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+
+        {/* Pinky — closing, shortest */}
+        <path
+          d="M 689,380 L 682,379 L 675,360 Q 674,352 677,349
+             Q 683,346 686,351 L 694,370 L 694,380 Z"
+          fill="#c4a888"
+          stroke="#2c2c2e"
+          strokeWidth="2"
+        />
+
         {/* Ground shadow */}
         <ellipse
-          cx="720"
-          cy="432"
-          rx="38"
+          cx="718"
+          cy="430"
+          rx="42"
           ry="5"
           fill="#0a0908"
-          opacity="0.28"
+          opacity="0.26"
         />
       </g>
 
